@@ -18,5 +18,5 @@ export default function RootLayout({
         </AppRouterCacheProvider>
       </body>
     </html>
-  )
+  );
 }
