@@ -8,7 +8,10 @@ export default function MovieCardsFilter() {
       sx={{
         display: "flex",
         justifyContent: "space-between",
-        paddingY: "20px"
+        paddingY: "20px",
+        maxWidth: "1590px",
+        width: "100%",
+        marginX: "auto"
       }}
     >
       <MovieCardsFilterButtons />
