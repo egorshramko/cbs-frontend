@@ -85,7 +85,7 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <MovieCardActionButton released={ props.releaseDate > new Date() } />
+            <MovieCardActionButton released={ props.releaseDate < new Date() } />
           </CardActions>
       </Card>
   );

@@ -31,7 +31,7 @@ export default function MovieFilteredCards() {
         <MovieCardsFilter />
       </Box>
       <Box>
-        <MovieCardsWrapper movies={moviesData.sort((a, b) => a.releaseDate < b.releaseDate ? 1 : -1)} />
+        <MovieCardsWrapper movies={moviesData.sort((a, b) => a.releaseDate > b.releaseDate ? 1 : -1)} />
       </Box>
     </Box>
   );
