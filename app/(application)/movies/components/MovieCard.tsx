@@ -1,17 +1,10 @@
 import { Badge, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import Duration from "../lib/Duration";
+import MovieCardProps from "../lib/MovieCardProps";
 
-interface MovieCardProps {
-  imageUrl: string;
-  name: string;
-  genre: string;
-  duration?: Duration;
-  country: string;
-  year: number;
-  ageLimit: number;
-}
 
-export default function MovieCard(props: MovieCardProps) {
+
+export default function MovieCard({ props } : { props: MovieCardProps }) {
 
   function getDurationString() {
     if (props.duration !== undefined && props.duration !== null) {
@@ -25,7 +18,7 @@ export default function MovieCard(props: MovieCardProps) {
   return (
       <Card 
         sx={{
-          maxWidth: 300,
+          width: 300,
           height: 400
         }}
         variant="outlined"

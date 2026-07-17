@@ -1,15 +1,25 @@
-import MovieCard from "./components/MovieCard";
+import MovieCardsWrapper from "./components/MovieCardsWrapper";
+import MovieCardProps from "./lib/MovieCardProps";
 
-export default function Home() {
+const ageLimits: Array<number> = [0, 6, 12, 16, 18];
+
+const moviesData: Array<MovieCardProps> = 
+    Array(11).fill(null).map((_, index) => {
+        return {
+          id: String(index),
+          imageUrl: "/temp-poster.png",
+          name: "Название фильма " + index,
+          genre: "Жанр",
+          country: "Страна",
+          duration: { hours: 2, minutes: 15 },
+          year: 2026,
+          ageLimit: ageLimits[index % ageLimits.length]
+        }
+    })
+
+export default function MoviesPage() {
+
   return (
-    <MovieCard 
-      imageUrl="/temp-poster.png"
-      name="Название фильма"
-      genre="комедия, боевик"
-      country="Россия"
-      duration={{hours: 1, minutes: 30}}
-      year={ 2001 }
-      ageLimit={ 16 }
-    />
+    <MovieCardsWrapper movies={ moviesData } />
   );
 }
