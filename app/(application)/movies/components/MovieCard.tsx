@@ -1,5 +1,4 @@
 import { Badge, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
-import Duration from "../lib/Duration";
 import MovieCardProps from "../lib/MovieCardProps";
 
 
