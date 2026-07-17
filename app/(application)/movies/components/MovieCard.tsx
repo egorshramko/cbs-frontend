@@ -1,4 +1,4 @@
-import { Badge, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import MovieCardProps from "../lib/MovieCardProps";
 import AgeLimitMarker from "./AgeLimitMarker";
 

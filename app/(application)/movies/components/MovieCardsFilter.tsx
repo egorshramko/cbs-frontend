@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import Box  from "@mui/material/Box";
 import MovieCardsFilterButtons from "./MovieCardsFilterButtons";
 import MovieCardsFilterSelects from "./MovieCardsFilterSelects";
 

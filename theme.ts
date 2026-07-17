@@ -13,6 +13,14 @@ const theme = createTheme({
                     color: "black"
                 }
             }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    textTransform: "none",
+                    fontSize: 16
+                }
+            }
         }
     },
     palette: {

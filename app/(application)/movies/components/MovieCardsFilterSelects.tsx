@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 
 export default function MovieCardsFilterSelects() {
   return (
