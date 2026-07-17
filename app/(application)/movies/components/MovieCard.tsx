@@ -18,7 +18,7 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
   return (
       <Card 
         sx={{
-          width: 300,
+          width: 278,
           height: 400
         }}
         variant="outlined"

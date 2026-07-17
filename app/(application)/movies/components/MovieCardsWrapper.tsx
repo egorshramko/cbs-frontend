@@ -14,7 +14,7 @@ export default function MovieCardsWrapper({ movies }: { movies: Array<MovieCardP
     <Box sx={{
       display: "flex",
       flexWrap: "wrap",
-      gap: "20px",
+      gap: "22px",
       maxWidth: "1590px",
       width: "100%",
       marginX: "auto"
