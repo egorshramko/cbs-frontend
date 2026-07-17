@@ -14,8 +14,8 @@ const moviesData: Array<MovieCardProps> =
           genre: "Жанр",
           country: "Страна",
           duration: { hours: 2, minutes: 15 },
-          year: 2026,
-          ageLimit: ageLimits[index % ageLimits.length]
+          ageLimit: ageLimits[index % ageLimits.length],
+          releaseDate: (index % 2 == 0) ? new Date("2026-05-12") : new Date("2027-05-05")
         }
     });
 
@@ -31,7 +31,7 @@ export default function MovieFilteredCards() {
         <MovieCardsFilter />
       </Box>
       <Box>
-        <MovieCardsWrapper movies={moviesData} />
+        <MovieCardsWrapper movies={moviesData.sort((a, b) => a.releaseDate < b.releaseDate ? 1 : -1)} />
       </Box>
     </Box>
   );

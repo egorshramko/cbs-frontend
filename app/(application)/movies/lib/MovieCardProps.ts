@@ -7,6 +7,6 @@ export default interface MovieCardProps {
     genre: string;
     duration?: Duration;
     country: string;
-    year: number;
     ageLimit: number;
+    releaseDate: Date;
 }

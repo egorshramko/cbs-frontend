@@ -2,7 +2,39 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@
 import MovieCardProps from "../lib/MovieCardProps";
 import AgeLimitMarker from "./AgeLimitMarker";
 
-
+function MovieCardActionButton({ released }: { released: boolean }) {
+  if (released) {
+    return (
+      <Button
+        sx={{
+          width: "100%",
+          marginX: "5px"
+        }}
+        variant="contained"
+        color="primary"
+      >
+        Выбрать сеанс
+      </Button>
+    );
+  }
+  else {
+    return (
+      <Button 
+        sx={{
+          width: "100%",
+          marginX: "5px",
+          '&.Mui-disabled': {
+            color: "#000000",
+          }
+        }}
+        variant="contained"
+        disabled
+      >
+        Скоро
+      </Button>
+    );
+  }
+}
 
 export default function MovieCard({ props } : { props: MovieCardProps }) {
 
@@ -49,20 +81,11 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
               }}
             >
               { props.genre } &bull; { durationString } <br />
-              { props.country } &bull; { props.year }
+              { props.country } &bull; { props.releaseDate.getFullYear() }
             </Typography>
           </CardContent>
           <CardActions>
-            <Button 
-              sx={{
-                width: "100%",
-                marginX: "5px"
-              }}
-              variant="contained" 
-              color="primary"
-            >
-                Выбрать сеанс
-            </Button>
+            <MovieCardActionButton released={ props.releaseDate > new Date() } />
           </CardActions>
       </Card>
   );
