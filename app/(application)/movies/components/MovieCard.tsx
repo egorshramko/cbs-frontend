@@ -1,6 +1,27 @@
 import { Badge, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import Duration from "../lib/Duration";
 
-export default function MovieCard() {
+interface MovieCardProps {
+  imageUrl: string;
+  name: string;
+  genre: string;
+  duration?: Duration;
+  country: string;
+  year: number;
+  ageLimit: number;
+}
+
+export default function MovieCard(props: MovieCardProps) {
+
+  function getDurationString() {
+    if (props.duration !== undefined && props.duration !== null) {
+      return props.duration.hours + " ч "+ props.duration.minutes + " мин";  
+    }
+    return null;
+  }
+
+  const durationString = getDurationString();
+
   return (
       <Card 
         sx={{
@@ -15,7 +36,7 @@ export default function MovieCard() {
               display: "flex",
               flexDirection: "row-reverse"
             }}
-            image="/temp-poster.png"
+            image={ props.imageUrl }
             title="poster"  
           >
             <Badge 
@@ -23,7 +44,7 @@ export default function MovieCard() {
                 opacity: "50%",
                 margin: "16px 22px",
               }}
-              badgeContent={ "16+" }
+              badgeContent={ props.ageLimit + "+" }
               color="secondary"
             />
           </CardMedia>
@@ -33,7 +54,7 @@ export default function MovieCard() {
               fontSize: "22px",
               paddingY: "5px"
             }} variant="h5">
-                Название фильма
+                { props.name }
             </Typography>
             <Typography
               sx={{
@@ -41,8 +62,8 @@ export default function MovieCard() {
                 paddingY: "5px"
               }}
             >
-              комедия, боевик &bull; 1 ч 30 мин <br />
-              Россия &bull; 2001
+              { props.genre } &bull; { durationString } <br />
+              { props.country } &bull; { props.year }
             </Typography>
           </CardContent>
           <CardActions>
