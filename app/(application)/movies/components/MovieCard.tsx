@@ -1,5 +1,6 @@
 import { Badge, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import MovieCardProps from "../lib/MovieCardProps";
+import AgeLimitMarker from "./AgeLimitMarker";
 
 
 
@@ -31,14 +32,7 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
             image={ props.imageUrl }
             title="poster"  
           >
-            <Badge 
-              sx={{
-                opacity: "50%",
-                margin: "16px 22px",
-              }}
-              badgeContent={ props.ageLimit + "+" }
-              color="secondary"
-            />
+            <AgeLimitMarker ageLimit={ props.ageLimit + "+" } />
           </CardMedia>
           <CardContent>
             <Typography sx={{
