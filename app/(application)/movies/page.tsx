@@ -1,3 +1,4 @@
+import MovieCardsFilter from "./components/MovieCardsFilter";
 import MovieCardsWrapper from "./components/MovieCardsWrapper";
 import MovieCardProps from "./lib/MovieCardProps";
 
@@ -20,6 +21,10 @@ const moviesData: Array<MovieCardProps> =
 export default function MoviesPage() {
 
   return (
-    <MovieCardsWrapper movies={ moviesData } />
+    <>
+      <MovieCardsFilter />
+      <MovieCardsWrapper movies={moviesData} />
+    </>
+    
   );
 }
