@@ -4,7 +4,7 @@ import MovieCard from "./MovieCard";
 
 export default function MovieCardsWrapper({ movies }: { movies: Array<MovieCardProps> }) {
 
-  const movieCards = movies.map((movie) => {
+  const movieCards = [...movies].map((movie) => {
     return (
       <MovieCard key={ movie.id } props={ movie } />
     );

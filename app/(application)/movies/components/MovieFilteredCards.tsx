@@ -1,7 +1,11 @@
+'use client'
+
 import { Box } from "@mui/material";
 import MovieCardsFilter from "./MovieCardsFilter";
 import MovieCardsWrapper from "./MovieCardsWrapper";
 import MovieCardProps from "../lib/MovieCardProps";
+import { useState } from "react";
+import { MovieCardsFilterData } from "../lib/MovieCardsFilterData";
 
 const ageLimits: Array<number> = [0, 6, 12, 16, 18];
 
@@ -20,6 +24,30 @@ const moviesData: Array<MovieCardProps> =
     });
 
 export default function MovieFilteredCards() {
+
+  const [movieCardsFilter, setMovieCardsFilter] = useState<MovieCardsFilterData>({
+    activeButton: 'NOW_IN_CINEMAS'
+  });
+  const [movies, setMovies] = useState([...moviesData].sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
+
+  function handleFilterChange(filter: MovieCardsFilterData) {
+    
+    //Если фильтр не поменялся, ничего не делаем
+    if (movieCardsFilter === filter) {
+      return;
+    }
+
+    //Если поменялась активная кнопка, то фильтруем данные
+    if (filter.activeButton === 'NOW_IN_CINEMAS') {
+      setMovies([...moviesData].sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
+    }
+    else if (filter.activeButton === 'SOON') {
+      setMovies([...moviesData].filter((movie) => movie.releaseDate.getTime() > Date.now()).sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
+    }
+
+    setMovieCardsFilter(filter);
+  }
+
   return (
     <Box 
       sx={{
@@ -28,10 +56,10 @@ export default function MovieFilteredCards() {
       }}
     >
       <Box>
-        <MovieCardsFilter />
+        <MovieCardsFilter filter={ movieCardsFilter } onFilterChange={ handleFilterChange } />
       </Box>
       <Box>
-        <MovieCardsWrapper movies={moviesData.sort((a, b) => a.releaseDate > b.releaseDate ? 1 : -1)} />
+        <MovieCardsWrapper movies={ movies } />
       </Box>
     </Box>
   );
