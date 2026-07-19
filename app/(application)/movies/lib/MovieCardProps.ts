@@ -9,4 +9,5 @@ export default interface MovieCardProps {
     country: string;
     ageLimit: number;
     releaseDate: Date;
+    cinemas: number[];
 }

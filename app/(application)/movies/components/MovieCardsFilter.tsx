@@ -2,13 +2,15 @@ import Box  from "@mui/material/Box";
 import MovieCardsFilterButtons from "./MovieCardsFilterButtons";
 import MovieCardsFilterSelects from "./MovieCardsFilterSelects";
 import { MovieCardsFilterData, FilterButtonTypes } from "../lib/MovieCardsFilterData";
+import { CinemaData } from "../lib/CinemaData";
 
 interface MovieCardsFilterProps {
   onFilterChange: (filter: MovieCardsFilterData) => void;
   filter: MovieCardsFilterData;
+  cinemas: Array<CinemaData>;
 }
 
-export default function MovieCardsFilter({ filter, onFilterChange }: MovieCardsFilterProps) {
+export default function MovieCardsFilter({ filter, cinemas, onFilterChange }: MovieCardsFilterProps) {
   
   function handleChangeCardsFilterButton(activeButton: FilterButtonTypes) {
     const newFilter = {...filter, activeButton: activeButton};
@@ -16,7 +18,12 @@ export default function MovieCardsFilter({ filter, onFilterChange }: MovieCardsF
   }
 
   function handleChangeGenreFilterSelect(genres: string[]) {
-    const newFilter = {...filter, genres: genres}
+    const newFilter = {...filter, genres: genres};
+    onFilterChange(newFilter);
+  }
+
+  function handleChangeCinemaFilterSelect(cinemas: Array<number>) {
+    const newFilter = {...filter, cinemas: cinemas};
     onFilterChange(newFilter);
   }
   
@@ -31,8 +38,15 @@ export default function MovieCardsFilter({ filter, onFilterChange }: MovieCardsF
         marginX: "auto"
       }}
     >
-      <MovieCardsFilterButtons activeButton={ filter.activeButton } onChangeActiveButton={ handleChangeCardsFilterButton } />
-      <MovieCardsFilterSelects selectedGenres={ filter.genres } selectedCinemas={ [''] } onGenreFilterChange={ handleChangeGenreFilterSelect }/>
+      <MovieCardsFilterButtons 
+        activeButton={ filter.activeButton } 
+        onChangeActiveButton={ handleChangeCardsFilterButton } />
+      <MovieCardsFilterSelects 
+        selectedGenres={ filter.genres } 
+        selectedCinemas={ filter.cinemas } 
+        allCinemas={ cinemas } 
+        onGenreFilterChange={ handleChangeGenreFilterSelect }
+        onCinemaFilterChange={ handleChangeCinemaFilterSelect } />
     </Box>
     
   );

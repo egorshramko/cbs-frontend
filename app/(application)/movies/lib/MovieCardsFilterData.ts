@@ -4,6 +4,6 @@ export interface MovieCardsFilterData {
     
     activeButton: FilterButtonTypes;
     genres: Array<string>;
-    cinemas?: Array<string>;
+    cinemas: Array<number>;
 
 }
