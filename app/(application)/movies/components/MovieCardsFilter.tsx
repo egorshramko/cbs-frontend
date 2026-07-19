@@ -14,6 +14,11 @@ export default function MovieCardsFilter({ filter, onFilterChange }: MovieCardsF
     const newFilter = {...filter, activeButton: activeButton};
     onFilterChange(newFilter);
   }
+
+  function handleChangeGenreFilterSelect(genres: string[]) {
+    const newFilter = {...filter, genres: genres}
+    onFilterChange(newFilter);
+  }
   
   return (
     <Box 
@@ -27,7 +32,7 @@ export default function MovieCardsFilter({ filter, onFilterChange }: MovieCardsF
       }}
     >
       <MovieCardsFilterButtons activeButton={ filter.activeButton } onChangeActiveButton={ handleChangeCardsFilterButton } />
-      <MovieCardsFilterSelects />
+      <MovieCardsFilterSelects selectedGenres={ filter.genres } selectedCinemas={ [''] } onGenreFilterChange={ handleChangeGenreFilterSelect }/>
     </Box>
     
   );

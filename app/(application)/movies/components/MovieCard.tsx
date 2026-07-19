@@ -45,6 +45,14 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
     return null;
   }
 
+  function getMovieGenres() {
+    let genresString = props.genre.join(", ");
+    while (genresString.length >= 20) {
+      genresString = genresString.substring(0, genresString.lastIndexOf(","));
+    }
+    return genresString;
+  }
+
   const durationString = getDurationString();
 
   return (
@@ -80,7 +88,7 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
                 paddingY: "5px"
               }}
             >
-              { props.genre } &bull; { durationString } <br />
+              { getMovieGenres() } &bull; { durationString } <br />
               { props.country } &bull; { props.releaseDate.getFullYear() }
             </Typography>
           </CardContent>
