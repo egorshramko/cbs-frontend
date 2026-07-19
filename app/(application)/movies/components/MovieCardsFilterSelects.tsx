@@ -4,7 +4,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { CinemaData } from "../lib/CinemaData";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
-import { Fragment } from "react/jsx-runtime";
 
 
 const MenuProps = {
