@@ -45,6 +45,8 @@ RUN if [ -f package-lock.json ]; then \
         npm run build; \
     elif [ -f yarn.lock ]; then \
         corepack enable yarn && yarn build; \
+    elif [ -f pnpm-lock.yaml ]; then \
+        corepack enable pnpm && pnpm build; \
     else \
         echo "No lockfile found." && exit 1; \
     fi
