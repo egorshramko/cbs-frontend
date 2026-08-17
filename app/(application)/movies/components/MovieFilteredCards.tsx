@@ -105,10 +105,11 @@ export default function MovieFilteredCards() {
                           });
 
     //Фильтрация по кинотеатрам
-    displayedMovies = 
-      displayedMovies
-          .filter((movie) => movie.cinemas
-              .some((cinemaId) => filter.cinemas.includes(cinemaId)));
+    // TODO: вернуть фильтрацию по кинотеатрам, когда кинотеатры появятся на бэке
+    // displayedMovies = 
+    //   displayedMovies
+    //       .filter((movie) => movie.cinemas
+    //           .some((cinemaId) => filter.cinemas.includes(cinemaId)));
 
     console.log("displayedMovies после фильтрации: ");
     console.log(displayedMovies);
