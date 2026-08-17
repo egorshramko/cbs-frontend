@@ -67,8 +67,8 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
 
       //Если пользователь активировал "Выбрать все", то мы должны выбрать все жанры и добавить all
       //То же самое должно произойти, если пользователь выбрал обычный пункт, но стали выбраны все жанры
-      if (lastAddedItem === "all" || lastAddedItem !== "all" && genres.every(genre => newSelect.includes(genre))) {
-        onChange([...genres, "all"]);
+      if (lastAddedItem === "all" || lastAddedItem !== "all" && genres.every(genre => newSelect.includes(genre.name))) {
+        onChange([...[...genres].map((genre) => genre.name), "all"]);
       }
 
       //В ином случае просто передаем новый массив выбранных жанров
@@ -104,7 +104,7 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
   }
 
   function allIsSelected() {
-    if (genres.every((genre) => selectedGenres.includes(genre))) {
+    if (genres.every((genre) => selectedGenres.includes(genre.name))) {
       console.log("all genres selected");
       return true;
     }
@@ -126,7 +126,7 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
       displayEmpty
       value={ selectedGenres }
       renderValue={(value) => {
-        if (genres.every((genre) => value.includes(genre))) {
+        if (genres.every((genre) => value.includes(genre.name))) {
           return "Все жанры";
         }
         if (value.length === 0) {
@@ -144,12 +144,12 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
       </MenuItem>
 
       {genres.map((genre) => {
-        const selected = selectedGenres.includes(genre);
+        const selected = selectedGenres.includes(genre.name);
 
         return (
-          <MenuItem key={genre} value={genre}>
+          <MenuItem key={genre.name} value={genre.name}>
             <ListCheckbox isSelected={ selected } />
-            <ListItemText primary={ genre } />
+            <ListItemText primary={ genre.name } />
           </MenuItem>
         );
       })}

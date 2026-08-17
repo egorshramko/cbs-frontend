@@ -55,6 +55,22 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
 
   const durationString = getDurationString();
 
+  const movieNameLength = props.name.length;
+  console.log("Длина текста: ");
+  console.log(movieNameLength);
+
+  // Адаптация шрифта карточки. Костыль, но мне лень думать, как сделать нормально
+  let movieNameFontSize;
+  if (movieNameLength <= 19) {
+    movieNameFontSize = "22px";
+  }
+  else if (movieNameLength <= 27) {
+    movieNameFontSize = "16px";
+  }
+  else {
+    movieNameFontSize = "13px";
+  }
+
   return (
       <Card 
         sx={{
@@ -77,7 +93,7 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
           <CardContent>
             <Typography sx={{
               fontWeight: 600,
-              fontSize: "22px",
+              fontSize: movieNameFontSize,
               paddingY: "5px"
             }} variant="h5">
                 { props.name }

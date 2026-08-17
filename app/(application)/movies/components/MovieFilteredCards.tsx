@@ -4,29 +4,32 @@ import { Box } from "@mui/material";
 import MovieCardsFilter from "./MovieCardsFilter";
 import MovieCardsWrapper from "./MovieCardsWrapper";
 import MovieCardProps from "../lib/MovieCardProps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MovieCardsFilterData } from "../lib/MovieCardsFilterData";
 import { genres } from "../lib/genres";
 import { CinemaData } from "../lib/CinemaData";
+import ReceivedMovieJson from "../lib/ReceivedMovieJson";
 
 //Временные данные
 //TODO: убрать, когда появится API
 const ageLimits: Array<number> = [0, 6, 12, 16, 18];
 
-const moviesData: Array<MovieCardProps> = 
-    Array(11).fill(null).map((_, index) => {
-        return {
-          id: String(index),
-          imageUrl: "/temp-poster.png",
-          name: "Название фильма " + index,
-          genre: [genres[index % 5].toLowerCase(), genres[index % 5 + 5].toLowerCase()],
-          country: "Страна",
-          duration: { hours: 2, minutes: 15 },
-          ageLimit: ageLimits[index % ageLimits.length],
-          releaseDate: (index % 2 == 0) ? new Date("2026-05-12") : new Date("2027-05-05"),
-          cinemas: [1, 2] //идентификаторы кинотеатров, в которых есть показы фильмов
-        }
-    });
+// const moviesData: Array<MovieCardProps> = 
+//     Array(11).fill(null).map((_, index) => {
+//         return {
+//           id: String(index),
+//           imageUrl: "/temp-poster.png",
+//           name: "Название фильма " + index,
+//           genre: [genres[index % 5].toLowerCase(), genres[index % 5 + 5].toLowerCase()],
+//           country: "Страна",
+//           duration: { hours: 2, minutes: 15 },
+//           ageLimit: ageLimits[index % ageLimits.length],
+//           releaseDate: (index % 2 == 0) ? new Date("2026-05-12") : new Date("2027-05-05"),
+//           cinemas: [1, 2] //идентификаторы кинотеатров, в которых есть показы фильмов
+//         }
+//     });
+
+let moviesData: Array<MovieCardProps>;
 
 const cinemasData: Array<CinemaData> = 
     [
@@ -66,10 +69,35 @@ export default function MovieFilteredCards() {
 
   const [movieCardsFilter, setMovieCardsFilter] = useState<MovieCardsFilterData>({
     activeButton: 'NOW_IN_CINEMAS',
-    genres: [...genres, "all"], //all добавляется для корректного отображения опции "Выбрать все" в фильтре жанров
+    genres: [...[...genres].map((genre) => genre.name), "all"], //all добавляется для корректного отображения опции "Выбрать все" в фильтре жанров
     cinemas: [...cinemasData.map((cinema) => cinema.id), 0] //TODO: сделать выбор всех кинотеатров по умолчанию
   });
-  const [movies, setMovies] = useState([...moviesData].sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
+  //const [movies, setMovies] = useState([...moviesData].sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
+  const [movies, setMovies] = useState<MovieCardProps[]>([]);
+
+  //Выгрузка афиши из бэка
+  useEffect(() => {
+    fetch('http://localhost:8080/api/v1/movies')
+      .then((result) => result.json())
+      .then((receivedMovies) => {
+        const renderingMovies: Array<MovieCardProps> = receivedMovies.map((movie: ReceivedMovieJson) => {
+          return {
+            id: movie.id,
+            imageUrl: movie.imageUrl,
+            name: movie.name,
+            genre: genres
+              .filter((genre) => movie.genre.includes(genre.code))
+              .map((genre) => genre.name),
+            country: movie.country,
+            duration: movie.duration,
+            ageLimit: movie.ageLimit,
+            releaseDate: new Date(movie.releaseDate)
+          }
+        });
+        moviesData = renderingMovies;
+        setMovies(renderingMovies);
+      });
+  }, []);
 
   function handleFilterChange(filter: MovieCardsFilterData) {
     
