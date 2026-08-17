@@ -87,7 +87,7 @@ export default function MovieFilteredCards() {
             name: movie.name,
             genre: genres
               .filter((genre) => movie.genre.includes(genre.code))
-              .map((genre) => genre.name),
+              .map((genre) => genre.name.toLowerCase()),
             country: movie.country,
             duration: movie.duration,
             ageLimit: movie.ageLimit,
