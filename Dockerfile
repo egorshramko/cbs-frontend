@@ -60,9 +60,10 @@ FROM node:${NODE_VERSION} AS runner
 # Установка рабочей директории
 WORKDIR /app
 
-ENV NODE_ENV=production 
+ENV NODE_ENV=development 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # Копирование ресурсов для запуска
 COPY --from=builder --chown=node:node /app/public ./public
