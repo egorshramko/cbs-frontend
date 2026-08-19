@@ -39,6 +39,9 @@ COPY --from=dependencies /app/node_modules ./node_modules
 # Копирование исходного кода
 COPY . .
 
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
 ENV NODE_ENV=production
 
 RUN if [ -f package-lock.json ]; then \
@@ -63,7 +66,6 @@ WORKDIR /app
 ENV NODE_ENV=development 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # Копирование ресурсов для запуска
 COPY --from=builder --chown=node:node /app/public ./public
