@@ -77,6 +77,8 @@ export default function MovieFilteredCards() {
 
   //Выгрузка афиши из бэка
   useEffect(() => {
+    console.log("NEXT_PUBLIC_API_URL");
+    console.log(process.env.NEXT_PUBLIC_API_URL);
     fetch (process.env.NEXT_PUBLIC_API_URL + '/api/v1/movies')
       .then((result) => result.json())
       .then((receivedMovies) => {
