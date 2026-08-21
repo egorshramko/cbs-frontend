@@ -31,7 +31,8 @@ const ageLimits: Array<number> = [0, 6, 12, 16, 18];
 
 let moviesData: Array<MovieCardProps>;
 
-const cinemasData: Array<CinemaData> = 
+//TODO: убрать экспорт, когда появится API
+export const cinemasData: Array<CinemaData> = 
     [
       {
         id: 1,

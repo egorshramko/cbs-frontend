@@ -10,8 +10,6 @@ export default function CinemaSessionCard() {
       display: "flex",
       border: "2px solid",
       borderRadius: "4px",
-      maxWidth: "1590px",
-      marginX: "auto",
       borderColor: "#F7F8F9"
     }}>
       <CinemaInformation />
