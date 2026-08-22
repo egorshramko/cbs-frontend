@@ -3,6 +3,7 @@
 import CinemasFilterSelect from "@/app/(application)/components/CinemasFilterSelect";
 import { Box } from "@mui/material";
 import { CinemaData } from "@/app/(application)/movies/lib/CinemaData";
+import MovieFormatsFilterSelect from "./MovieFormatsFilterSelect";
 
 const cinemasData: Array<CinemaData> = 
     [
@@ -55,6 +56,9 @@ export default function CinemaSessionFilter() {
         selectedCinemas={[...cinemasData.map((cinema) => cinema.id), 0] } 
         allCinemas={ cinemasData } 
         onChange={ () => { console.log("CinemasFilterSelect changed") } } />
+      <MovieFormatsFilterSelect 
+        selectedFormats={ ["2D", "3D", "IMAX", "all"] } 
+        formats={["2D", "3D", "IMAX"] } />
     </Box>
   );
 }
