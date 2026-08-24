@@ -50,7 +50,8 @@ export default function CinemaSessionFilter() {
     <Box sx={{
       display: "flex",
       gap: "14px",
-      paddingY: "8px"
+      paddingY: "8px",
+      paddingX: "24px"
     }}>
       <CinemasFilterSelect 
         selectedCinemas={[...cinemasData.map((cinema) => cinema.id), 0] } 
