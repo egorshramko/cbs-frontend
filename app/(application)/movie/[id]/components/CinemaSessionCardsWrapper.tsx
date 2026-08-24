@@ -5,7 +5,7 @@ export default function CinemaSessionCardsWrapper() {
   return (
     <Box sx={{
       paddingY: "10px",
-      paddingX: "24px",
+      paddingX: 0,
       display: "flex",
       flexDirection: "column",
       gap: "5px"

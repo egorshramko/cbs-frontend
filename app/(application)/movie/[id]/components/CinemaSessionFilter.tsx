@@ -51,7 +51,7 @@ export default function CinemaSessionFilter() {
       display: "flex",
       gap: "14px",
       paddingY: "8px",
-      paddingX: "24px"
+      paddingX: 0
     }}>
       <CinemasFilterSelect 
         selectedCinemas={[...cinemasData.map((cinema) => cinema.id), 0] } 

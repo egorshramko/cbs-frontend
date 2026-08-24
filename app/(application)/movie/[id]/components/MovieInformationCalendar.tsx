@@ -8,7 +8,7 @@ export default function MovieInformationCalendar() {
     <Box sx={{
       display: "flex",
       gap: "24px",
-      paddingX: "24px",
+      paddingX: 0,
       paddingY: "10px",
       maxWidth: "1488px",
       marginX: "auto"

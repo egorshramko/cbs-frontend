@@ -5,7 +5,7 @@ import CinemaSessionCardsWrapper from "./CinemaSessionCardsWrapper";
 export default function CinemaSessionFilteredCards() {
   return (
     <Box sx={{
-      maxWidth: "1536px",
+      maxWidth: "1590px",
       marginX: "auto"
     }}>
       <CinemaSessionFilter />
