@@ -1,7 +1,23 @@
 import { Box, Typography } from "@mui/material";
 import AdditionalMovieInformationMarker from "./AdditionalMovieInformationMarker";
+import Movie from "../lib/Movie";
+import { genres } from "@/app/(application)/movies/lib/genres";
 
-export default function MovieTextInformation() {
+export default function MovieTextInformation({
+  movie
+} : {
+  movie: Movie
+}) {
+
+
+  function getMovieGenres() {
+    let genresString = movie.genre.join(", ");
+    while (genresString.length >= 20) {
+      genresString = genresString.substring(0, genresString.lastIndexOf(","));
+    }
+    return genresString;
+  }
+
   return (
     <Box>
       <Typography sx={{
@@ -9,7 +25,7 @@ export default function MovieTextInformation() {
         fontSize: "22px",
         paddingY: "5px"
       }} variant="h5">
-        Название фильма
+        { movie.name }
       </Typography>
       <Typography
         sx={{
@@ -19,7 +35,7 @@ export default function MovieTextInformation() {
           opacity: "70%"
         }}
       >
-        { "жанр1, жанр2" } &bull; { "2 ч 10 мин" }
+        { getMovieGenres() } &bull; { movie.duration?.hours + " ч " + movie.duration?.minutes + " мин" }
       </Typography>
       <Typography sx={{
         fontWeight: 400, 
@@ -27,16 +43,14 @@ export default function MovieTextInformation() {
         paddingY: "2px",
         opacity: "70%"
       }}>
-        { "Страна" } &bull; { "2026" }
+        {movie.country} &bull; { movie.releaseDate.getFullYear() }
       </Typography>
       <Box sx={{
         display: "flex",
         gap: "10px"
       }}>
 
-        <AdditionalMovieInformationMarker text={"12+"} />
-        <AdditionalMovieInformationMarker text={ "IMAX" } />
-        <AdditionalMovieInformationMarker text={ "3D" } />
+        <AdditionalMovieInformationMarker text={ movie.ageLimit + "+" } />
 
       </Box>
     </Box>

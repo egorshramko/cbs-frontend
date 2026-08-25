@@ -1,10 +1,12 @@
+'use client'
+
 import { Box, Button, Typography } from "@mui/material";
 
 export default function CalendarElement({
-  isSelected, isToday
+  isSelected, date
 } : {
   isSelected?: boolean,
-  isToday?: boolean
+  date: Date
 }) {
 
   const backgroundColor = isSelected ? "black" : "white";
@@ -15,6 +17,12 @@ export default function CalendarElement({
     fontWeight: 600,
     fontSize: "14px"
   }
+
+  const todayDate: Date = new Date();
+  const isToday: boolean = todayDate.getFullYear() === date.getFullYear() &&
+    todayDate.getMonth() === date.getMonth() && 
+    todayDate.getDate() === date.getDate();
+  const weekDays: string[] = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 
   return (
     <Button sx={{
@@ -30,10 +38,13 @@ export default function CalendarElement({
         display: "block"
       }}>
         <Typography sx={textSx}>
-          { (isToday) ? "Сегодня" : "Сб" }
+          { (isToday) ? "Сегодня" : weekDays[date.getDay()] }
         </Typography>
         <Typography sx={textSx}>
-          24 августа
+          { date.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'long'
+          }) }
         </Typography>
       </Box>
     </Button>

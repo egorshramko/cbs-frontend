@@ -1,6 +1,10 @@
 import Typography from "@mui/material/Typography";
 
-export default function CinemaName() {
+export default function CinemaName({
+  name
+} : {
+  name: string
+}) {
   return (
     <Typography sx={{
       fontSize: "18px",
@@ -8,7 +12,7 @@ export default function CinemaName() {
     }}
       variant="h5"
     >
-      Название кинотеатра
+      { name }
     </Typography>
   );
 }

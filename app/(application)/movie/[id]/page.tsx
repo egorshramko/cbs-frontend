@@ -16,8 +16,10 @@ export default async function MovieSessionsPage({
       marginTop: "24px"
     }} maxWidth="xl">
       <Button sx={{
-        paddingLeft: 0
-      }} variant="text">
+          paddingLeft: 0
+        }} 
+        variant="text"
+        href="/movies">
         <Box sx={{
           display: "flex",
           gap: "10px"
