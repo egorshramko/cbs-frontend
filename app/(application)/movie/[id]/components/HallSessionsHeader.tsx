@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import MovieFormat from "./MovieFormat";
 import HallSessionMovieFormats from "./HallSessionMovieFormats";
 import HallSessionsInfo from "../lib/HallSessionsInfo";
 

@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import SessionTimeWidget from "./SessionTimeWidget";
 import { Button } from "@mui/material";
 import HallSession from "../lib/HallSession";
-import { Session } from "inspector/promises";
 
 export default function HallSessions({
   sessions
