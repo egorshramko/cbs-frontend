@@ -44,8 +44,6 @@ export default async function MovieSessionsPage({
       <MovieInformationCalendar />
       <CinemaSessionFilteredCards />
     </Container>
-    
-    
   );
 
 }

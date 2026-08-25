@@ -1,8 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import MovieFormat from "./MovieFormat";
 import HallSessionMovieFormats from "./HallSessionMovieFormats";
+import HallSessionsInfo from "../lib/HallSessionsInfo";
 
-export default function HallSessionsHeader() {
+export default function HallSessionsHeader({
+  hallSession
+} : {
+  hallSession: HallSessionsInfo
+}) {
   return (
     <Box sx={{
       display: "flex",
@@ -13,9 +18,9 @@ export default function HallSessionsHeader() {
         fontSize: "12px",
         
       }}>
-        Зал 1
+        { hallSession.hallName }
       </Typography>
-      <HallSessionMovieFormats />
+      <HallSessionMovieFormats formats={ [...hallSession.hallMovieFormats] } />
     </Box>
   );
 }

@@ -1,8 +1,14 @@
 import Box from "@mui/material/Box";
 import SessionTimeWidget from "./SessionTimeWidget";
 import { Button } from "@mui/material";
+import HallSession from "../lib/HallSession";
+import { Session } from "inspector/promises";
 
-export default function HallSessions() {
+export default function HallSessions({
+  sessions
+} : {
+  sessions: Array<HallSession>
+}) {
   return (
     <Box sx={{
       display: "flex",
@@ -13,11 +19,23 @@ export default function HallSessions() {
         display: "flex",
         gap: "20px"
       }}>
-        <SessionTimeWidget value={"10:00"} />
-        <SessionTimeWidget value={"13:00"} />
-        <SessionTimeWidget value={"16:00"} isSelected={true} />
-        <SessionTimeWidget value={"19:00"} />
-        <SessionTimeWidget value={"22:00"} />
+
+        {
+          sessions.map((session, index) => {
+            return (
+              <SessionTimeWidget 
+                key={ 'session-' + index }
+                value={ 
+                  session.sessionDatetime.toLocaleTimeString("ru-RU", {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }) 
+                }
+                isSelected={ session.isSelected } />
+
+            );
+          })
+        }
       </Box>
       <Button sx={{
         color: "primary.main",
