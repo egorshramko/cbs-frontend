@@ -1,11 +1,17 @@
+'use client'
+
 import { Box } from "@mui/material";
 import Image from "next/image";
 
-export default function SessionsMoviePoster() {
+export default function SessionsMoviePoster({
+  posterUrl
+} : {
+  posterUrl: string
+}) {
   return (
     <Box>
-      <Image 
-        src="/temp-poster.png" 
+      <Image
+        src={ posterUrl }
         alt="Постер фильма" 
         style={{
           borderRadius: "4px",

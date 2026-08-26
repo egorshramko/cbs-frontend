@@ -70,7 +70,11 @@ const movie: Movie = {
 }
 
 // верхняя часть страницы выбора сеанса
-export default function MovieInformationCalendar() {
+export default function MovieInformationCalendar({
+  movieInformation
+} : {
+  movieInformation: Movie
+}) {
   return (
     <Box sx={{
       display: "flex",
@@ -80,8 +84,8 @@ export default function MovieInformationCalendar() {
       maxWidth: "1488px",
       marginX: "auto"
     }}>
-      <SessionsMoviePoster />
-      <MovieTextInformationCalendarHolder movie={ movie } selectedDate={ new Date("2026-08-26") } />
+      <SessionsMoviePoster posterUrl={ movieInformation.imageUrl } />
+      <MovieTextInformationCalendarHolder movie={ movieInformation } selectedDate={ new Date("2026-08-26") } />
     </Box>
   );
 }
