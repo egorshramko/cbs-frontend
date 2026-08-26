@@ -1,3 +1,5 @@
+'use client'
+
 import { Box } from "@mui/material";
 import MovieTextInformation from "./MovieTextInformation";
 import Calendar from "@/app/(application)/components/Calendar";
@@ -11,6 +13,11 @@ export default function MovieTextInformationCalendarHolder({
   movie: Movie,
   selectedDate: Date
 }) {
+
+  function handleDateChange(date: Date) {
+    console.log("New date: " + date.toLocaleDateString());
+  }
+
   return (
     <Box sx={{
       display: "flex",
@@ -20,7 +27,7 @@ export default function MovieTextInformationCalendarHolder({
       paddingBottom: "3px"
     }}>
       <MovieTextInformation movie={ movie } />
-      <Calendar selectedDate={ selectedDate } weekNumber={0} />
+      <Calendar onDateChange={ handleDateChange } />
     </Box>
   )
 }

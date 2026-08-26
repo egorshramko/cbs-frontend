@@ -3,10 +3,11 @@
 import { Box, Button, Typography } from "@mui/material";
 
 export default function CalendarElement({
-  isSelected, date
+  isSelected, date, onClick
 } : {
   isSelected?: boolean,
-  date: Date
+  date: Date,
+  onClick: (date: Date) => void
 }) {
 
   const backgroundColor = isSelected ? "black" : "white";
@@ -24,6 +25,10 @@ export default function CalendarElement({
     todayDate.getDate() === date.getDate();
   const weekDays: string[] = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 
+  function handleButtonClick() {
+    onClick(date);
+  }
+
   return (
     <Button sx={{
       width: "150px",
@@ -32,7 +37,8 @@ export default function CalendarElement({
       color: fontColor
     }} 
       variant="outlined" 
-      color="secondary">
+      color="secondary"
+      onClick={ handleButtonClick }>
       
       <Box sx={{
         display: "block"

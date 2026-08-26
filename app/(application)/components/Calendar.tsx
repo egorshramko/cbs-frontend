@@ -4,17 +4,32 @@ import { Box, Button } from "@mui/material";
 import CalendarElement from "./CalendarElement";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import { useState } from "react";
 
 export default function Calendar({
-  selectedDate, weekNumber
+  onDateChange
 } : {
-  selectedDate: Date,
-  weekNumber: number
+  onDateChange: (selectedDate: Date) => void
 }) {
 
   const todayDate = new Date();
-  console.log("todayDate");
-  console.log(todayDate);
+
+  const [selectedDate, setSelectedDate] = useState(todayDate);
+  const [weekNumber, setWeekNumber] = useState(0);
+
+  function handleLeftArrowClick() {
+    setWeekNumber(weekNumber - 1);
+  }
+
+  function handleRightArrowClick() {
+    setWeekNumber(weekNumber + 1);
+  }
+
+  function handleCalendarElementClick(clickedDate: Date) {
+    setSelectedDate(clickedDate);
+    onDateChange(clickedDate);
+  }
+  
 
 
   const dates = [];
@@ -34,7 +49,8 @@ export default function Calendar({
       justifyContent: "space-between",
       width: "100%"
       }}>
-      <Button variant="text" disabled={weekNumber <= 0}>
+      <Button variant="text" disabled={weekNumber <= 0}
+        onClick={ handleLeftArrowClick }>
         <KeyboardArrowLeftOutlinedIcon />
       </Button>
       <Box sx={{
@@ -52,12 +68,14 @@ export default function Calendar({
               <CalendarElement 
                 key={ date.toLocaleDateString() } 
                 isSelected={ isSelected } 
-                date = { date } />
+                date = { date } 
+                onClick={ handleCalendarElementClick } />
             );
           })
         }
       </Box>
-      <Button variant="text" disabled={weekNumber >= 4}>
+      <Button variant="text" disabled={weekNumber >= 4}
+        onClick={ handleRightArrowClick }>
         <KeyboardArrowRightOutlinedIcon />
       </Button>
     </Box>
