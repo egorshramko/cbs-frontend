@@ -12,7 +12,6 @@ export default function CalendarElement({
 
   const backgroundColor = isSelected ? "black" : "white";
   const fontColor = isSelected ? "white" : "black";
-  const borderColor = isSelected ? "black" : "#dedfe0";
   
   const textSx = {
     fontWeight: 600,
