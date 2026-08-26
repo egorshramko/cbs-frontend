@@ -12,7 +12,7 @@ export default function HallSessions({
     <Box sx={{
       display: "flex",
       justifyContent: "space-between",
-      gap: "100px" //TODO: временный gap, нужно будет разобраться нормально
+      //gap: "100px" //TODO: временный gap, нужно будет разобраться нормально
     }}>
       <Box sx={{
         display: "flex",
@@ -36,14 +36,17 @@ export default function HallSessions({
           })
         }
       </Box>
-      <Button sx={{
-        color: "primary.main",
-        maxHeight: "30px",
-        marginX: "auto"
-      }} 
-        variant="outlined" color="primary">
-        Выбрать сеанс
-      </Button>
+      <Box>
+        <Button sx={{
+          color: "primary.main",
+          maxHeight: "30px",
+          marginX: "auto"
+        }}
+          variant="outlined" color="primary">
+          Выбрать сеанс
+        </Button>
+      </Box>
+      
     </Box>
     
   );

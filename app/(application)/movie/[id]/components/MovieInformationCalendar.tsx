@@ -81,7 +81,7 @@ export default function MovieInformationCalendar() {
       marginX: "auto"
     }}>
       <SessionsMoviePoster />
-      <MovieTextInformationCalendarHolder movie={ movie } selectedDate={ new Date("2026-08-25") } />
+      <MovieTextInformationCalendarHolder movie={ movie } selectedDate={ new Date("2026-08-26") } />
     </Box>
   );
 }

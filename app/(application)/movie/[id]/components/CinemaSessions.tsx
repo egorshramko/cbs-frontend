@@ -63,6 +63,7 @@ export default function CinemaSessions({
   return (
     <Box sx={{
       display: "flex",
+      width: "100%",
       flexDirection: "column",
       gap: "20px",
       padding: "12px 24px"
@@ -76,8 +77,6 @@ export default function CinemaSessions({
           )
         })
       }
-      {/* <HallSessionInformation hallSession={ hallSessions[0] } />
-      <HallSessionInformation hallSession={ hallSessions[1] } /> */}
     </Box>
   );
 }

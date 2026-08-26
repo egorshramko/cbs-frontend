@@ -39,6 +39,7 @@ export default function Calendar({
       </Button>
       <Box sx={{
         display: "flex",
+        flexWrap: "wrap",
         gap: "14px"
       }}>
         {

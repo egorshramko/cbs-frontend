@@ -20,7 +20,7 @@ export default function MovieTextInformationCalendarHolder({
       paddingBottom: "3px"
     }}>
       <MovieTextInformation movie={ movie } />
-      <Calendar selectedDate={new Date("2026-08-25")} weekNumber={0} />
+      <Calendar selectedDate={ selectedDate } weekNumber={0} />
     </Box>
   )
 }
