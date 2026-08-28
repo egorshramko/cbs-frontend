@@ -78,16 +78,15 @@ async function getMovieSessionsByDate(movie: Movie, date: Date) {
 
 // верхняя часть страницы выбора сеанса
 export default function MovieInformationCalendar({
-  movieInformation
+  movieInformation, selectedDate, onDateChange
 } : {
-  movieInformation: Movie
+  movieInformation: Movie,
+  selectedDate: Date,
+  onDateChange: (date: Date) => void
 }) {
 
-  const todayDate = new Date();
-  const [selectedDate, setSelectedDate] = useState(todayDate);
-
   function handleDateChange(date: Date) {
-    setSelectedDate(date);
+    onDateChange(date);
   }
 
   return (

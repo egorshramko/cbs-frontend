@@ -5,6 +5,7 @@ import { Button, Container, Typography } from "@mui/material";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Movie from "./lib/Movie";
 import { genres } from "../../movies/lib/genres";
+import MovieSessionPageWrapper from "./components/MovieSessionPageWrapper";
 
 async function getMovieInformation(id: number): Promise<Movie> {
 
@@ -50,40 +51,7 @@ export default async function MovieSessionsPage({
   const movieInformation: Movie = await getMovieInformation(id);
 
   return (
-    <Container sx={{
-      marginTop: "24px"
-    }} maxWidth="xl">
-      <Button sx={{
-          paddingLeft: 0
-        }} 
-        variant="text"
-        href="/movies">
-        <Box sx={{
-          display: "flex",
-          gap: "10px"
-        }}>
-          <ArrowBackOutlinedIcon />
-          <Typography sx={{
-            fontWeight: 400,
-            fontSize: "14px"
-          }}>
-            Назад к афише
-          </Typography>
-        </Box>
-      </Button>
-      <Typography
-        sx={{
-          fontSize: "32px",
-          fontWeight: 700,
-          my: "12px"
-        }}
-        variant="h1"
-      >
-        Выберите сеанс
-      </Typography>
-      <MovieInformationCalendar movieInformation={ movieInformation } />
-      <CinemaSessionFilteredCards />
-    </Container>
+    <MovieSessionPageWrapper movieInformation={ movieInformation }/>
   );
 
 }
