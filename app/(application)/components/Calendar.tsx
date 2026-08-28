@@ -7,14 +7,13 @@ import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRig
 import { useState } from "react";
 
 export default function Calendar({
-  onDateChange
+  selectedDate, onDateChange
 } : {
-  onDateChange: (selectedDate: Date) => void
+  selectedDate: Date, onDateChange: (newDate: Date) => void
 }) {
 
   const todayDate = new Date();
 
-  const [selectedDate, setSelectedDate] = useState(todayDate);
   const [weekNumber, setWeekNumber] = useState(0);
 
   function handleLeftArrowClick() {
@@ -26,11 +25,8 @@ export default function Calendar({
   }
 
   function handleCalendarElementClick(clickedDate: Date) {
-    setSelectedDate(clickedDate);
     onDateChange(clickedDate);
   }
-  
-
 
   const dates = [];
   for (let i = 0; i < 7; i++) {

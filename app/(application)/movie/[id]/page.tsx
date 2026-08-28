@@ -5,7 +5,6 @@ import { Button, Container, Typography } from "@mui/material";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Movie from "./lib/Movie";
 import { genres } from "../../movies/lib/genres";
-import Cinema from "./lib/Cinema";
 
 async function getMovieInformation(id: number): Promise<Movie> {
 

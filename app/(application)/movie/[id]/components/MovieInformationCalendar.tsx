@@ -1,7 +1,10 @@
+'use client'
+
 import Box from "@mui/material/Box";
 import SessionsMoviePoster from "./SessionsMoviePoster";
 import MovieTextInformationCalendarHolder from "./MovieTextInformationCalendarHolder";
 import Movie from "../lib/Movie";
+import { useState } from "react";
 
 const movie: Movie = {
   id: "2",
@@ -69,12 +72,24 @@ const movie: Movie = {
   ]
 }
 
+async function getMovieSessionsByDate(movie: Movie, date: Date) {
+  //TODO: сделать вызов данных сеанса
+}
+
 // верхняя часть страницы выбора сеанса
 export default function MovieInformationCalendar({
   movieInformation
 } : {
   movieInformation: Movie
 }) {
+
+  const todayDate = new Date();
+  const [selectedDate, setSelectedDate] = useState(todayDate);
+
+  function handleDateChange(date: Date) {
+    setSelectedDate(date);
+  }
+
   return (
     <Box sx={{
       display: "flex",
@@ -85,7 +100,10 @@ export default function MovieInformationCalendar({
       marginX: "auto"
     }}>
       <SessionsMoviePoster posterUrl={ movieInformation.imageUrl } />
-      <MovieTextInformationCalendarHolder movie={ movieInformation } selectedDate={ new Date("2026-08-26") } />
+      <MovieTextInformationCalendarHolder 
+        movie={ movieInformation } 
+        selectedDate={ selectedDate } 
+        onDateChange={ handleDateChange } />
     </Box>
   );
 }

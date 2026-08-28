@@ -8,14 +8,16 @@ import Movie from "../lib/Movie";
 // Окно выбора сеанса. Контейнер, содержащий информацию о фильме 
 // и календарь для выбора даты сеанса
 export default function MovieTextInformationCalendarHolder({
-  movie, selectedDate
+  movie, selectedDate, onDateChange
 } : {
   movie: Movie,
-  selectedDate: Date
+  selectedDate: Date,
+  onDateChange: (date: Date) => void
 }) {
 
   function handleDateChange(date: Date) {
     console.log("New date: " + date.toLocaleDateString());
+    onDateChange(date);
   }
 
   return (
@@ -27,7 +29,7 @@ export default function MovieTextInformationCalendarHolder({
       paddingBottom: "3px"
     }}>
       <MovieTextInformation movie={ movie } />
-      <Calendar onDateChange={ handleDateChange } />
+      <Calendar selectedDate={ selectedDate } onDateChange={ handleDateChange } />
     </Box>
   )
 }
