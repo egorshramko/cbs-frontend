@@ -1,6 +1,6 @@
 'use client'
 
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 import MovieCardsFilter from "./MovieCardsFilter";
 import MovieCardsWrapper from "./MovieCardsWrapper";
 import MovieCardProps from "../lib/MovieCardProps";
@@ -75,6 +75,7 @@ export default function MovieFilteredCards() {
   });
   //const [movies, setMovies] = useState([...moviesData].sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
   const [movies, setMovies] = useState<MovieCardProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
   //Выгрузка афиши из бэка
   useEffect(() => {
@@ -99,6 +100,7 @@ export default function MovieFilteredCards() {
         });
         moviesData = renderingMovies;
         setMovies(renderingMovies);
+        setLoading(false);
       });
   }, []);
 
@@ -147,6 +149,21 @@ export default function MovieFilteredCards() {
 
     setMovies(displayedMovies);
     setMovieCardsFilter(filter);
+  }
+
+  if (loading) {
+    return (
+      <Container sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1
+      }} maxWidth="xl">
+        <Box>
+          <CircularProgress color="primary" aria-label="Loading..." />
+        </Box>
+      </Container>
+    )
   }
 
   return (
