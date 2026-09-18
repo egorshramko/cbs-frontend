@@ -24,7 +24,7 @@ export default function CinemaInformation({
   return (
     <Box sx={{
       display: "flex",
-      alignItems: isCardExpanded ? "flex-start" : "center",
+      alignItems: "flex-start",
       padding: "6px",
       borderRight: "2px solid",
       borderRadius: "4px 0 0 4px",
