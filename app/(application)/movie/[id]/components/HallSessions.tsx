@@ -24,11 +24,11 @@ export default function HallSessions({
       }}>
 
         {
-          sessions.map((session, index) => {
+          sessions.map((session) => {
             const sessionDateTime = new Date(session.datetime);
             return (
               <SessionTimeWidget 
-                key={ 'session-' + index }
+                key={ session.id }
                 value={ 
                   sessionDateTime.toLocaleTimeString("ru-RU", {
                     hour: '2-digit',
