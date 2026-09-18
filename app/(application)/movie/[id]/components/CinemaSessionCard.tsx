@@ -56,7 +56,7 @@ export default function CinemaSessionCard({
       borderRadius: "4px",
       borderColor: "#F7F8F9"
     }}>
-      <CinemaInformation cinema={ cinema }/>
+      <CinemaInformation cinema={ cinema } isCardExpanded={ isExpanded } />
       <Box sx={{
         display: "flex",
         justifyContent: "space-between",

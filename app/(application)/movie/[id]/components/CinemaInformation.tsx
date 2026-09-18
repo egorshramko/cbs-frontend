@@ -6,9 +6,10 @@ import Image from "next/image";
 import Cinema from "../lib/Cinema";
 
 export default function CinemaInformation({
-  cinema
+  cinema, isCardExpanded
 } : {
-  cinema: Cinema
+  cinema: Cinema,
+  isCardExpanded: boolean
 }) {
 
   // вычисление форматов кино в кинотеатре
@@ -23,7 +24,7 @@ export default function CinemaInformation({
   return (
     <Box sx={{
       display: "flex",
-      alignItems: "center",
+      alignItems: isCardExpanded ? "flex-start" : "center",
       padding: "6px",
       borderRight: "2px solid",
       borderRadius: "4px 0 0 4px",
