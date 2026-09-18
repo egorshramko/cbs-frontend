@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import SessionsMoviePoster from "./SessionsMoviePoster";
 import MovieTextInformationCalendarHolder from "./MovieTextInformationCalendarHolder";
 import Movie from "../lib/Movie";
-import { useState } from "react";
 
 const movie: Movie = {
   id: "2",

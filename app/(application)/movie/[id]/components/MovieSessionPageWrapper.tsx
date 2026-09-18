@@ -1,12 +1,13 @@
 'use client'
 
-import { Box, Button, CircularProgress, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import Movie from "../lib/Movie"
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import MovieInformationCalendar from "./MovieInformationCalendar";
 import CinemaSessionFilteredCards from "./CinemaSessionFilteredCards";
 import { useEffect, useState } from "react";
 import { genres } from "../../../movies/lib/genres";
+import LoadingSpinner from "@/app/(application)/components/LoadingSpinner";
 
 
 
@@ -22,7 +23,7 @@ export default function MovieSessionPageWrapper({
   // выбранная дата в календаре с расписанием
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [loading, setLoading] = useState(true);
-  const [movieInformation, setMovieInformation] = useState<Movie>();
+  const [movieInformation, setMovieInformation] = useState<Movie>({} as Movie);
 
   function handleDateChange(date: Date) {
     //TODO: сделать вызов API для выгрузки сеансов кинотеатров
@@ -71,16 +72,7 @@ export default function MovieSessionPageWrapper({
 
   if (loading) {
     return (
-      <Container sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1
-      }} maxWidth="xl">
-        <Box>
-          <CircularProgress color="primary" aria-label="Loading..." />
-        </Box>
-      </Container>
+      <LoadingSpinner />
     )
   }
 
