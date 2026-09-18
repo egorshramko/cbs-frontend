@@ -1,4 +1,4 @@
 export default interface HallSession {
-    sessionDatetime: Date,
-    isSelected: boolean
+    id: number,
+    datetime: Date
 }

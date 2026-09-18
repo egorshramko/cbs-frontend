@@ -8,8 +8,8 @@ import CinemaSessionFilteredCards from "./CinemaSessionFilteredCards";
 import { useEffect, useState } from "react";
 import { genres } from "../../../movies/lib/genres";
 import LoadingSpinner from "@/app/(application)/components/LoadingSpinner";
-
-
+import Cinema from "../lib/Cinema";
+import { getISOStringForCurrentTimezone } from "../lib/utils";
 
 export default function MovieSessionPageWrapper({
   id
@@ -18,18 +18,21 @@ export default function MovieSessionPageWrapper({
 }) {
 
   const MOVIE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/api/v1/movie/" + id;
+  const SESSIONS_API_URL = process.env.NEXT_PUBLIC_API_URL + "/api/v1/sessions"; 
   const todayDate = new Date();
 
   // выбранная дата в календаре с расписанием
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [loading, setLoading] = useState(true);
   const [movieInformation, setMovieInformation] = useState<Movie>({} as Movie);
+  const [cinemas, setCinemas] = useState<Cinema[]>([]);
 
   function handleDateChange(date: Date) {
     //TODO: сделать вызов API для выгрузки сеансов кинотеатров
     setSelectedDate(date);
   }
 
+  //Загрузка данных о фильме
   useEffect(() => {
     async function getMovieInformation(): Promise<Movie> {
     
@@ -68,7 +71,30 @@ export default function MovieSessionPageWrapper({
 
     getMovieInformation();
 
-  }, [MOVIE_API_URL])
+  }, [MOVIE_API_URL]);
+
+  //Загрузка данных о кинотеатрах
+  useEffect(() => {
+    async function getCinemasByDate() {
+      await fetch(SESSIONS_API_URL + "?movie=" + id + "&date=" + getISOStringForCurrentTimezone(selectedDate).split("T")[0])
+          .then((response) => response.json())
+          .then((responseBody) => {
+
+            console.log("cinema responseBody");
+            console.log(responseBody);
+
+            // const fetchedCinemas: Cinema[] = JSON.parse(responseBody);
+            // console.log("fetchedCinemas: ");
+            // console.log(fetchedCinemas);
+
+            const fetchedCinemas: Cinema[] = responseBody.cinemas as Cinema[];
+            setCinemas(fetchedCinemas);
+          });
+    }
+
+    getCinemasByDate();
+
+  }, [id, SESSIONS_API_URL, selectedDate]);
 
   if (loading) {
     return (
@@ -112,7 +138,7 @@ export default function MovieSessionPageWrapper({
         movieInformation={movieInformation} 
         selectedDate={ selectedDate }
         onDateChange={ handleDateChange } />
-      <CinemaSessionFilteredCards cinemas={ [] }/>
+      <CinemaSessionFilteredCards cinemas={ cinemas } />
     </Container>
   );
 

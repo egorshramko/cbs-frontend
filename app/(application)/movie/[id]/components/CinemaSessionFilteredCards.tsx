@@ -8,13 +8,14 @@ export default function CinemaSessionFilteredCards({
 } : {
   cinemas: Cinema[]
 }) {
+
   return (
     <Box sx={{
       maxWidth: "1590px",
       marginX: "auto"
     }}>
       <CinemaSessionFilter />
-      <CinemaSessionCardsWrapper />
+      <CinemaSessionCardsWrapper cinemas={ cinemas } />
     </Box>
   );
 }

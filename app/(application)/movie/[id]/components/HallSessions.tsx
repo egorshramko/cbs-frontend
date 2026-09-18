@@ -8,6 +8,10 @@ export default function HallSessions({
 } : {
   sessions: Array<HallSession>
 }) {
+
+  console.log("sessions");
+  console.log(sessions);
+
   return (
     <Box sx={{
       display: "flex",
@@ -21,16 +25,17 @@ export default function HallSessions({
 
         {
           sessions.map((session, index) => {
+            const sessionDateTime = new Date(session.datetime);
             return (
               <SessionTimeWidget 
                 key={ 'session-' + index }
                 value={ 
-                  session.sessionDatetime.toLocaleTimeString("ru-RU", {
+                  sessionDateTime.toLocaleTimeString("ru-RU", {
                     hour: '2-digit',
                     minute: '2-digit'
                   }) 
                 }
-                isSelected={ session.isSelected } />
+                isSelected={ false } />
 
             );
           })
