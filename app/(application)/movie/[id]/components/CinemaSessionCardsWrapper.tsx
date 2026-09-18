@@ -98,6 +98,9 @@ export default function CinemaSessionCardsWrapper({
 } : {
   cinemas: Cinema[]
 }) {
+
+
+
   return (
     <Box sx={{
       paddingY: "10px",
@@ -107,11 +110,24 @@ export default function CinemaSessionCardsWrapper({
       gap: "5px"
     }}>
       {
-        cinemas.map((cinema) => {
-          return (
-            <CinemaSessionCard key={ cinema.id } cinema={ cinema } />
-          );
-        })
+        cinemas
+          .sort((a, b) => {
+
+            //сравниваем кинотеатры по городу
+            const cityCompareResult = a.city.localeCompare(b.city);
+            if (cityCompareResult == 0) {
+
+              //если город одинаковый, то сравниваем по названию
+              return a.name.localeCompare(b.name);
+
+            }
+            return cityCompareResult;
+          })
+          .map((cinema) => {
+            return (
+              <CinemaSessionCard key={ cinema.id } cinema={ cinema } />
+            );
+          })
       }
     </Box>
   );

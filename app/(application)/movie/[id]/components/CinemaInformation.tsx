@@ -12,9 +12,11 @@ export default function CinemaInformation({
 }) {
 
   // вычисление форматов кино в кинотеатре
-  const cinemaFormats = [...new Set(cinema.hallSessions
-    .flatMap((hallSession) => hallSession.hallMovieFormats)
-    .flatMap((formatsSet) => [...formatsSet]))];
+  const cinemaFormats: string[] = [...new Set(cinema.hallSessions
+    .flatMap((hallSession) => Array.from(hallSession.hallMovieFormats)))];
+
+  console.log("cinemaFormats");
+  console.log(cinemaFormats);
 
   const cinemaAddress = "г. " + cinema.city + ", " + cinema.address;
 

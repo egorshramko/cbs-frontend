@@ -13,7 +13,8 @@ export default function HallSessionMovieFormats({
       gap: "10px"
     }}>
       {
-        formats.map((format) => {
+        formats
+          .map((format) => {
           return (
             <MovieFormat key={ format } format={ format } variant="outlined" />
           )

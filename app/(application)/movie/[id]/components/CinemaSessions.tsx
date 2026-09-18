@@ -57,7 +57,27 @@ export default function CinemaSessions({
   // ];
 
   if (!isExpanded) {
-    hallSessions = hallSessions.slice(0, 2);
+    hallSessions = hallSessions
+      .sort((a, b) => {
+
+        //Сортировка пронумерованных залов по номеру
+        const lowerCaseAHallName = a.hallName.toLowerCase();
+        const lowerCaseBHallName = b.hallName.toLowerCase();
+        if (lowerCaseAHallName.includes("зал ") &&
+          lowerCaseBHallName.toLowerCase().includes("зал ")) {
+
+          const aHallNumber = Number(lowerCaseAHallName.split("зал ")[1]);
+          const bHallNumber = Number(lowerCaseBHallName.split("зал ")[1]);
+          if (!isNaN(aHallNumber) && !isNaN(bHallNumber)) {
+            return aHallNumber - bHallNumber;
+          }
+
+        }
+
+        //Остальные залы сортируются по алфавиту
+        return a.hallName.localeCompare(b.hallName)
+      })
+      .slice(0, 2);
   }
   
   return (
@@ -69,13 +89,14 @@ export default function CinemaSessions({
       padding: "12px 24px"
     }}>
       {
-        hallSessions.map((session) => {
-          return (
-            <HallSessionInformation 
-              key={ session.hallName } 
-              hallSession={ session } />
-          )
-        })
+        hallSessions
+          .map((session) => {
+            return (
+              <HallSessionInformation 
+                key={ session.hallName } 
+                hallSession={ session } />
+            )
+          })
       }
     </Box>
   );

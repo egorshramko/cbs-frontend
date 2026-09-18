@@ -7,6 +7,30 @@ export default function HallSessionsHeader({
 } : {
   hallSession: HallSessionsInfo
 }) {
+
+  const sortedHallFormats = 
+    [...hallSession.hallMovieFormats].sort((a, b) => {
+      const formatsPriority = [
+        {
+          format: "2d",
+          priority: 0
+        },
+        {
+          format: "3d",
+          priority: 1
+        },
+        {
+          format: "imax",
+          priority: 2
+        }
+      ];
+
+      const aPriority = formatsPriority.filter((value) => value.format == a)[0].priority;
+      const bPriority = formatsPriority.filter((value) => value.format == b)[0].priority;
+
+      return aPriority - bPriority;
+    })
+
   return (
     <Box sx={{
       display: "flex",
@@ -19,7 +43,7 @@ export default function HallSessionsHeader({
       }}>
         { hallSession.hallName }
       </Typography>
-      <HallSessionMovieFormats formats={ [...hallSession.hallMovieFormats] } />
+      <HallSessionMovieFormats formats={ sortedHallFormats } />
     </Box>
   );
 }

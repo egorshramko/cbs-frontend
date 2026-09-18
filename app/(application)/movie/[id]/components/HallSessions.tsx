@@ -15,8 +15,7 @@ export default function HallSessions({
   return (
     <Box sx={{
       display: "flex",
-      justifyContent: "space-between",
-      //gap: "100px" //TODO: временный gap, нужно будет разобраться нормально
+      justifyContent: "space-between"
     }}>
       <Box sx={{
         display: "flex",
@@ -24,7 +23,11 @@ export default function HallSessions({
       }}>
 
         {
-          sessions.map((session) => {
+          sessions.sort((a, b) => {
+            const aDatetime = Date.parse(a.datetime);
+            const bDatetime = Date.parse(b.datetime);
+            return aDatetime - bDatetime;
+          }).map((session) => {
             const sessionDateTime = new Date(session.datetime);
             return (
               <SessionTimeWidget 
