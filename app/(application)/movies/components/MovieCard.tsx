@@ -2,7 +2,11 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@
 import MovieCardProps from "../lib/MovieCardProps";
 import AgeLimitMarker from "./AgeLimitMarker";
 
-function MovieCardActionButton({ released }: { released: boolean }) {
+function MovieCardActionButton({ 
+  released, movieId 
+} : { 
+  released: boolean, movieId: string 
+}) {
   if (released) {
     return (
       <Button
@@ -12,6 +16,7 @@ function MovieCardActionButton({ released }: { released: boolean }) {
         }}
         variant="contained"
         color="primary"
+        href={ '/movie/' + movieId }
       >
         Выбрать сеанс
       </Button>
@@ -109,7 +114,9 @@ export default function MovieCard({ props } : { props: MovieCardProps }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <MovieCardActionButton released={ props.releaseDate < new Date() } />
+            <MovieCardActionButton 
+              released={ props.releaseDate < new Date() } 
+              movieId={ props.id }/>
           </CardActions>
       </Card>
   );

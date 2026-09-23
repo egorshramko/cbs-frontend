@@ -11,6 +11,9 @@ const theme = createTheme({
                 },
                 text: {
                     color: "black"
+                },
+                outlined: {
+                    color: "black"
                 }
             }
         },
@@ -26,6 +29,9 @@ const theme = createTheme({
     palette: {
         primary: {
             main: "#6D28D9"
+        },
+        secondary: {
+            main: "#979797"
         }
     },
     typography: {

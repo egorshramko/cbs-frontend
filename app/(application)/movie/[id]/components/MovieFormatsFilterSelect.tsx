@@ -1,9 +1,7 @@
-import { Box, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { genres } from "../lib/genres";
-import { CinemaData } from "../lib/CinemaData";
-import CinemasFilterSelect from "../../components/CinemasFilterSelect";
-import ListCheckbox from "../../components/ListCheckbox";
-
+import ListCheckbox from "@/app/(application)/components/ListCheckbox";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const MenuProps = {
   slotProps: {
@@ -16,20 +14,26 @@ const MenuProps = {
   }
 }
 
-//Раскрывающийся список фильтрации жанров
-function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string>, onChange: (genres: string[]) => void}) {
+export default function MovieFormatsFilterSelect({
+  selectedFormats,
+  formats,
+  onChange
+} : {
+  selectedFormats: Array<string>,
+  formats: Array<string>,
+  onChange: (formats: string[]) => void
+}) {
 
-  function handleChange(event: SelectChangeEvent<typeof selectedGenres>) {
-
-    const oldSelect = selectedGenres;
+  function handleChange(event: SelectChangeEvent<typeof selectedFormats>) {
+    const oldSelect: string[] = selectedFormats;
 
     //приводим event.target.value к string[]
-    const newSelect = typeof event.target.value === 'string' ? [ event.target.value ] : event.target.value; 
+    const newSelect: string[] = Array.isArray(event.target.value) ? event.target.value : [ event.target.value ];
 
-    console.log("old genres");
+    console.log("old formats");
     console.log(oldSelect);
 
-    console.log("new genres");
+    console.log("new formats");
     console.log(newSelect);
 
     //вычисляем добавленный элемент (последний активированный)
@@ -49,10 +53,10 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
     //Ситуация добавления элемента в список
     if (lastAddedItem !== undefined && lastAddedItem !== null) {
 
-      //Если пользователь активировал "Выбрать все", то мы должны выбрать все жанры и добавить all
-      //То же самое должно произойти, если пользователь выбрал обычный пункт, но стали выбраны все жанры
-      if (lastAddedItem === "all" || lastAddedItem !== "all" && genres.every(genre => newSelect.includes(genre.name))) {
-        onChange([...[...genres].map((genre) => genre.name), "all"]);
+      //Если пользователь активировал "Выбрать все", то мы должны выбрать все форматы и добавить "all" (ID пункта "Выбрать все")
+      //То же самое должно произойти, если пользователь выбрал обычный пункт, но стали выбраны все форматы
+      if (lastAddedItem === "all" || lastAddedItem !== "all" && formats.every(format => newSelect.includes(format))) {
+        onChange([...formats, "all"]);
       }
 
       //В ином случае просто передаем новый массив выбранных жанров
@@ -65,7 +69,7 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
     //Ситуация удаления элемента из списка
     else {
 
-      //Если пользователь убрал отметку "Выбрать все", должны сброситься все жанры
+      //Если пользователь убрал отметку "Выбрать все", должны сброситься все кинотеатры
       if (lastRemovedItem === "all") {
         onChange([]);
       }
@@ -84,11 +88,10 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
       }
 
     }
-
   }
 
   function allIsSelected() {
-    if (genres.every((genre) => selectedGenres.includes(genre.name))) {
+    if (formats.every((format) => selectedFormats.includes(format))) {
       console.log("all genres selected");
       return true;
     }
@@ -108,63 +111,35 @@ function GenresSelect({selectedGenres, onChange }: {selectedGenres: Array<string
       id="genres-filter-select"
       multiple
       displayEmpty
-      value={ selectedGenres }
+      value={selectedFormats}
       renderValue={(value) => {
-        if (genres.every((genre) => value.includes(genre.name))) {
-          return "Все жанры";
+        if (formats.every((format) => value.includes(format))) {
+          return "Все форматы";
         }
         if (value.length === 0) {
-          return "Жанры не выбраны";
+          return "Форматы не выбраны";
         }
         return value.join(", ");
       }}
       onChange={ handleChange }
-      MenuProps={ MenuProps }
+      MenuProps={MenuProps}
     >
-      
+
       <MenuItem key="all" value="all">
-        <ListCheckbox isSelected={ allIsSelected() } />
+        <ListCheckbox isSelected={allIsSelected()} />
         <ListItemText primary="Выбрать все" />
       </MenuItem>
 
-      {genres.map((genre) => {
-        const selected = selectedGenres.includes(genre.name);
+      {formats.map((format) => {
+        const selected = selectedFormats.includes(format);
 
         return (
-          <MenuItem key={genre.name} value={genre.name}>
-            <ListCheckbox isSelected={ selected } />
-            <ListItemText primary={ genre.name } />
+          <MenuItem key={format} value={format}>
+            <ListCheckbox isSelected={selected} />
+            <ListItemText primary={format} />
           </MenuItem>
         );
       })}
     </Select>
-  );
-}
-
-export default function MovieCardsFilterSelects({ 
-  selectedGenres, selectedCinemas, 
-  allCinemas,
-  onGenreFilterChange,
-  onCinemaFilterChange
-} : { 
-  selectedGenres: Array<string>, selectedCinemas: Array<number> ,
-  allCinemas: Array<CinemaData>,
-  onGenreFilterChange: (genres: string[]) => void,
-  onCinemaFilterChange: (cinemas: Array<number>) => void
-}) {
-
-  return (
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "none",
-          flexDirection: "row",
-          gap: "10px"
-        }}
-      >
-        <GenresSelect 
-          selectedGenres={ selectedGenres } 
-          onChange = { onGenreFilterChange } />
-      </Box>
   );
 }

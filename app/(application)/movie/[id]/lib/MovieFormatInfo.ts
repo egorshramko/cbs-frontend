@@ -1,0 +1,1 @@
+export type MovieFormatInfo = "2d" | "3d" | "imax";

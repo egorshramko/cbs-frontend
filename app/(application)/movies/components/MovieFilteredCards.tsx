@@ -1,6 +1,6 @@
 'use client'
 
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 import MovieCardsFilter from "./MovieCardsFilter";
 import MovieCardsWrapper from "./MovieCardsWrapper";
 import MovieCardProps from "../lib/MovieCardProps";
@@ -31,7 +31,8 @@ const ageLimits: Array<number> = [0, 6, 12, 16, 18];
 
 let moviesData: Array<MovieCardProps>;
 
-const cinemasData: Array<CinemaData> = 
+//TODO: убрать экспорт, когда появится API
+export const cinemasData: Array<CinemaData> = 
     [
       {
         id: 1,
@@ -65,7 +66,11 @@ const cinemasData: Array<CinemaData> =
       }
     ];
 
-export default function MovieFilteredCards() {
+export default function MovieFilteredCards({
+  moviesData
+} : {
+  moviesData: MovieCardProps[]
+}) {
 
   const [movieCardsFilter, setMovieCardsFilter] = useState<MovieCardsFilterData>({
     activeButton: 'NOW_IN_CINEMAS',
@@ -73,33 +78,34 @@ export default function MovieFilteredCards() {
     cinemas: [...cinemasData.map((cinema) => cinema.id), 0] //TODO: сделать выбор всех кинотеатров по умолчанию
   });
   //const [movies, setMovies] = useState([...moviesData].sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime()));
-  const [movies, setMovies] = useState<MovieCardProps[]>([]);
+  const [movies, setMovies] = useState<MovieCardProps[]>(moviesData);
+  
 
   //Выгрузка афиши из бэка
-  useEffect(() => {
-    console.log("NEXT_PUBLIC_API_URL");
-    console.log(process.env.NEXT_PUBLIC_API_URL);
-    fetch (process.env.NEXT_PUBLIC_API_URL + '/api/v1/movies')
-      .then((result) => result.json())
-      .then((receivedMovies) => {
-        const renderingMovies: Array<MovieCardProps> = receivedMovies.map((movie: ReceivedMovieJson) => {
-          return {
-            id: movie.id,
-            imageUrl: movie.imageUrl,
-            name: movie.name,
-            genre: genres
-              .filter((genre) => movie.genre.includes(genre.code))
-              .map((genre) => genre.name.toLowerCase()),
-            country: movie.country,
-            duration: movie.duration,
-            ageLimit: movie.ageLimit,
-            releaseDate: new Date(movie.releaseDate)
-          }
-        });
-        moviesData = renderingMovies;
-        setMovies(renderingMovies);
-      });
-  }, []);
+  // useEffect(() => {
+  //   console.log("NEXT_PUBLIC_API_URL");
+  //   console.log(process.env.NEXT_PUBLIC_API_URL);
+  //   fetch (process.env.NEXT_PUBLIC_API_URL + '/api/v1/movies')
+  //     .then((result) => result.json())
+  //     .then((receivedMovies) => {
+  //       const renderingMovies: Array<MovieCardProps> = receivedMovies.map((movie: ReceivedMovieJson) => {
+  //         return {
+  //           id: movie.id,
+  //           imageUrl: movie.imageUrl,
+  //           name: movie.name,
+  //           genre: genres
+  //             .filter((genre) => movie.genre.includes(genre.code))
+  //             .map((genre) => genre.name.toLowerCase()),
+  //           country: movie.country,
+  //           duration: movie.duration,
+  //           ageLimit: movie.ageLimit,
+  //           releaseDate: new Date(movie.releaseDate)
+  //         }
+  //       });
+  //       moviesData = renderingMovies;
+  //       setMovies(renderingMovies);
+  //     });
+  // }, []);
 
   function handleFilterChange(filter: MovieCardsFilterData) {
     
