@@ -67,7 +67,7 @@ export default function HallSchemeEditorControl({
   canvasRef: React.RefObject<HTMLCanvasElement | null>
 }) {
 
-  const [screenAdded, setScreenAdded] = useState(false);
+  const [screenAdded, setScreenAdded] = useState(true);
 
   useEffect(() => {
     if (!!canvasRef.current) {

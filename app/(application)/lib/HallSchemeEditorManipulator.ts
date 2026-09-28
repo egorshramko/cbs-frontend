@@ -1,4 +1,4 @@
-import { Canvas, FabricText, Path, TParsedAbsoluteMoveToCommand, TSimpleParsedCommand, TSimplePathData } from "fabric";
+import { Canvas, FabricText, Path, Rect, TParsedAbsoluteMoveToCommand, TSimpleParsedCommand, TSimplePathData } from "fabric";
 
 interface CanvasPoint {
     x: number,
@@ -13,13 +13,94 @@ export default class HallSchemeEditorManipulator {
     screenLine?: Path;
     screenLabel?: FabricText;
 
+    //Параметры рабочей сетки (строки и столбцы)
+    workspaceRows: number;
+    workspaceColumns: number;
+    workspaceGap: number; //отступ между клетками сетки в пикселях
+
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = new Canvas(canvas, {
             width: 600,
             height: 600,
             backgroundColor: "#e8e8e8"
         });
+
+        this.workspaceRows = 10;
+        this.workspaceColumns = 10;
+        this.workspaceGap = 12;
+
+        this.addScreen();
+        this.setBaseGrid();
+
         this.canvas.renderAll();
+    }
+
+    //Установка базовой сетки по умолчанию
+    private setBaseGrid(): void {
+
+        //Вычисление нижней Y-координаты экрана
+        if (!!this.screenLine && !!this.screenLabel) {
+            const bottomScreenLineY = this.getPathStartYCoord(this.screenLine?.path);
+            const bottomScreenLabelY = this.screenLabel.top + this.screenLabel.height;
+
+            //Расчет верхней границы рабочей области
+            //Отступ между линией экрана и рабочей областью 4% от высоты холста
+            const workspaceTopBound = Math.max(bottomScreenLineY, bottomScreenLabelY) + Math.round(this.canvas.height * 0.04);
+
+            //Расчет размеров базовой сетки
+            const workspaceLeftBoundX = Math.round(this.canvas.width * 0.05); //слева отступ 5% от ширины холста 
+            const workspaceWidth = Math.round(this.canvas.width * 0.9); //ширина рабочей зоны - 90% от ширины холста, чтобы справа был отступ 5%
+            const workspaceHeight = Math.round(this.canvas.height * 0.95 - workspaceTopBound); //отступ снизу 5%
+
+            //Расчетная ширина ячейки сетки
+            const workspaceCellCalculatedWidth = Math.round((workspaceWidth - this.workspaceColumns * this.workspaceGap) / this.workspaceColumns);
+            const workspaceCellCalculatedHeight = Math.round((workspaceHeight - this.workspaceRows * this.workspaceGap) / this.workspaceRows);
+
+            //Выбор минимального измерения для размера стороны КВАДРАТНОЙ ячейки
+            const workspaceCellDimension = Math.min(workspaceCellCalculatedWidth, workspaceCellCalculatedHeight);
+
+            //Расчет фактических отступов сетки по горизонтали
+            const actualHorizontalGap = Math.round((workspaceWidth - (workspaceCellDimension * this.workspaceColumns)) / (this.workspaceColumns - 1));
+            const actualVerticalGap = Math.round((workspaceHeight - (workspaceCellDimension * this.workspaceRows)) / (this.workspaceRows - 1));
+
+            const workspaceCellBorderRadius = Math.round(workspaceCellDimension * 0.05);
+
+            //Отрисовка рабочей сетки
+            for (let i = 0; i < this.workspaceRows; i++) {
+                const cellTop = workspaceTopBound + i * (workspaceCellDimension + actualVerticalGap) + Math.round(workspaceCellDimension * 0.5);
+                for (let j = 0; j < this.workspaceColumns; j++) {
+                    const cellLeft = workspaceLeftBoundX + j * (workspaceCellDimension + actualHorizontalGap) + Math.round(workspaceCellDimension * 0.5);
+
+                    const currentCell = new Rect({
+                        width: workspaceCellDimension,
+                        height: workspaceCellDimension,
+                        fill: '',
+                        stroke: "black",
+                        strokeWidth: 1,
+                        left: cellLeft,
+                        top: cellTop,
+                        lockMovementY: true,
+                        lockMovementX: true,
+                        lockScalingX: true,
+                        lockScalingY: true,
+                        lockRotation: true,
+                        rx: workspaceCellBorderRadius,
+                        ry: workspaceCellBorderRadius,
+                        cornerStyle: 'circle',
+                        hoverCursor: 'pointer',
+                        hasControls: false,
+                        borderColor: "red"
+                    });
+                    currentCell.controls.mtr.visible = false;
+
+                    this.canvas.add(currentCell);
+                    
+                }
+            }
+
+        }
+        
+
     }
 
     //Добавление экрана на схему
@@ -115,6 +196,19 @@ export default class HallSchemeEditorManipulator {
         //Расчет положения надписи экрана (t = 0.5 - это центр кривой)
         const centerScreenLinePoint: CanvasPoint = this.getQuadraticBezierCurvePoint(0.5, this.screenLine.path)
         return centerScreenLinePoint.y + 25
+
+    }
+
+    private getPathStartYCoord(path: TSimplePathData | undefined): number {
+        if (!path) {
+            console.warn("Отсутствует path");
+            throw "Отсутствует path";
+        }
+
+        //Получаем move to команду пути и возвращаем Y координату
+        const moveToCommand: TSimpleParsedCommand = path.filter(command => command[0] === "M")[0];
+        
+        return moveToCommand[2]; //Возврат Y координаты
 
     }
 
