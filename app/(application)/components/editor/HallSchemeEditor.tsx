@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { Box } from "@mui/material";
-import { Canvas } from "fabric";
 import HallSchemeEditorControl from "./HallSchemeEditorControl";
 
 export default function HallSchemeEditor() {

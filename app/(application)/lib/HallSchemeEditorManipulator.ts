@@ -16,7 +16,8 @@ export default class HallSchemeEditorManipulator {
     //Параметры рабочей сетки (строки и столбцы)
     workspaceRows: number;
     workspaceColumns: number;
-    workspaceGap: number; //отступ между клетками сетки в пикселях
+    workspaceHorizontalGap: number; //отступ по горизонтали между клетками сетки в пикселях
+    workspaceVerticalGap: number; //отступ по вертикали между клетками сетки в пикселях
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = new Canvas(canvas, {
@@ -27,7 +28,8 @@ export default class HallSchemeEditorManipulator {
 
         this.workspaceRows = 10;
         this.workspaceColumns = 10;
-        this.workspaceGap = 12;
+        this.workspaceHorizontalGap = 10;
+        this.workspaceVerticalGap = 10;
 
         this.addScreen();
         this.setBaseGrid();
@@ -47,29 +49,31 @@ export default class HallSchemeEditorManipulator {
             //Отступ между линией экрана и рабочей областью 4% от высоты холста
             const workspaceTopBound = Math.max(bottomScreenLineY, bottomScreenLabelY) + Math.round(this.canvas.height * 0.04);
 
-            //Расчет размеров базовой сетки
+            //Расчет размеров рабочей области
             const workspaceLeftBoundX = Math.round(this.canvas.width * 0.05); //слева отступ 5% от ширины холста 
             const workspaceWidth = Math.round(this.canvas.width * 0.9); //ширина рабочей зоны - 90% от ширины холста, чтобы справа был отступ 5%
             const workspaceHeight = Math.round(this.canvas.height * 0.95 - workspaceTopBound); //отступ снизу 5%
 
-            //Расчетная ширина ячейки сетки
-            const workspaceCellCalculatedWidth = Math.round((workspaceWidth - this.workspaceColumns * this.workspaceGap) / this.workspaceColumns);
-            const workspaceCellCalculatedHeight = Math.round((workspaceHeight - this.workspaceRows * this.workspaceGap) / this.workspaceRows);
+            //Расчетные максимальные ширина и высота ячейки сетки
+            const workspaceCellCalculatedWidth = Math.round((workspaceWidth - (this.workspaceColumns - 1) * this.workspaceHorizontalGap) / this.workspaceColumns);
+            const workspaceCellCalculatedHeight = Math.round((workspaceHeight - (this.workspaceRows - 1) * this.workspaceVerticalGap) / this.workspaceRows);
 
             //Выбор минимального измерения для размера стороны КВАДРАТНОЙ ячейки
             const workspaceCellDimension = Math.min(workspaceCellCalculatedWidth, workspaceCellCalculatedHeight);
 
-            //Расчет фактических отступов сетки по горизонтали
-            const actualHorizontalGap = Math.round((workspaceWidth - (workspaceCellDimension * this.workspaceColumns)) / (this.workspaceColumns - 1));
-            const actualVerticalGap = Math.round((workspaceHeight - (workspaceCellDimension * this.workspaceRows)) / (this.workspaceRows - 1));
-
+            //Радиус закругления угла клетки 5% от стороны
             const workspaceCellBorderRadius = Math.round(workspaceCellDimension * 0.05);
+
+            //Расчет размера рабочей сетки
+            const baseGridWidth = Math.round(workspaceCellDimension * this.workspaceColumns + this.workspaceHorizontalGap * (this.workspaceColumns - 1));
 
             //Отрисовка рабочей сетки
             for (let i = 0; i < this.workspaceRows; i++) {
-                const cellTop = workspaceTopBound + i * (workspaceCellDimension + actualVerticalGap) + Math.round(workspaceCellDimension * 0.5);
+
+                //последнее слагаемое нужно потому, что в fabric top - это координата центра фигуры
+                const cellTop = workspaceTopBound + i * (workspaceCellDimension + this.workspaceVerticalGap) + Math.round(workspaceCellDimension * 0.5); 
                 for (let j = 0; j < this.workspaceColumns; j++) {
-                    const cellLeft = workspaceLeftBoundX + j * (workspaceCellDimension + actualHorizontalGap) + Math.round(workspaceCellDimension * 0.5);
+                    const cellLeft = workspaceLeftBoundX + ((Math.abs(baseGridWidth - workspaceWidth)) / 2) + j * (workspaceCellDimension + this.workspaceHorizontalGap) + Math.round(workspaceCellDimension * 0.5);
 
                     const currentCell = new Rect({
                         width: workspaceCellDimension,
@@ -100,6 +104,35 @@ export default class HallSchemeEditorManipulator {
 
         }
         
+
+    }
+
+    public changeGridParameters(workspaceRows?: number, workspaceColumns?: number, 
+            workspaceHorizontalGap?: number, workspaceVerticalGap?: number) {
+
+        const oldGrid = this.canvas.getObjects(...['rect']);
+        console.debug("old grid");
+        console.debug(oldGrid);
+        
+        if (!!workspaceRows) {
+            this.workspaceRows = workspaceRows;
+        }
+        if (!!workspaceColumns) {
+            this.workspaceColumns = workspaceColumns;
+        }
+        if (!!workspaceHorizontalGap) {
+            this.workspaceHorizontalGap = workspaceHorizontalGap;
+        }
+        if (!!workspaceVerticalGap) {
+            this.workspaceVerticalGap = workspaceVerticalGap;
+        }
+        
+        this.canvas.remove(...oldGrid);
+        this.canvas.requestRenderAll();
+
+        this.setBaseGrid();
+
+        this.canvas.requestRenderAll();
 
     }
 
@@ -178,6 +211,7 @@ export default class HallSchemeEditorManipulator {
                 console.debug(this.screenLine.path);
             }
             
+            this.changeGridParameters();
             this.canvas.requestRenderAll();
         }
         
