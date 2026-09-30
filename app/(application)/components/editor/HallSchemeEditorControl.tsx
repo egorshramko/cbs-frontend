@@ -27,10 +27,13 @@ export default function HallSchemeEditorControl({
   return (
     <Box sx={{
       minWidth: 300,
+      width: '100%',
+      paddingX: "30px",
       display: "flex",
       flexDirection: "column",
       gap: 2,
-      alignItems: "center"
+      alignItems: "center",
+      overflowY: 'auto'
     }}>
       <Typography variant="h5">
         Панель управления
