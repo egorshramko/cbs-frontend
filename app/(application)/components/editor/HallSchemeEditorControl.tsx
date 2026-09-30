@@ -35,6 +35,9 @@ export default function HallSchemeEditorControl({
       <Typography variant="h5">
         Панель управления
       </Typography>
+      <Typography variant="body1">
+        Параметры экрана
+      </Typography>
       <Box sx={{
         display: "flex",
         width: "100%",
@@ -54,6 +57,27 @@ export default function HallSchemeEditorControl({
           min={1}
           max={4}
           onChange={handleChangeScreenCurvative}
+        />
+      </Box>
+      <Box sx={{
+        display: "flex",
+        width: "100%",
+        gap: 1
+      }}>
+        <Typography sx={{
+          width: "50%"
+        }} variant="body2">
+          Размер экрана
+        </Typography>
+        <Slider
+          aria-label="screen-curvative"
+          defaultValue={0}
+          getAriaValueText={(value) => { return String(value) }}
+          valueLabelDisplay="auto"
+          step={0.05}
+          min={0.0}
+          max={0.4}
+          onChange={(event, value) => { canvasManipulator.changeScreenLength(value) }}
         />
       </Box>
       <Typography variant="body1">

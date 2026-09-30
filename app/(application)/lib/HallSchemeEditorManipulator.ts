@@ -9,8 +9,20 @@ export default class HallSchemeEditorManipulator {
 
     canvas: Canvas;
 
-    //объект экрана
+    //Объект экрана
     screenLine?: Path;
+
+    //Базовые параметры линии экрана
+
+    //Координаты начала, конца и середины линии экрана по X
+    startScreenLineX: number;
+    endScreenLineX: number;
+    middleScreenLineX: number;
+
+    //Координата начала и конца линии экрана по Y
+    screenLineY: number;
+
+    //Надпись "Экран"
     screenLabel?: FabricText;
 
     //Параметры рабочей сетки (строки и столбцы)
@@ -30,6 +42,14 @@ export default class HallSchemeEditorManipulator {
         this.workspaceColumns = 10;
         this.workspaceHorizontalGap = 10;
         this.workspaceVerticalGap = 10;
+
+        this.startScreenLineX = Math.round(this.canvas.width * 0.05);
+        this.endScreenLineX = Math.round(this.canvas.width * 0.95);
+        this.middleScreenLineX = Math.round((this.startScreenLineX + this.endScreenLineX) / 2);
+
+        //Координата начала и конца линии экрана по Y
+        this.screenLineY = Math.round(this.canvas.height * 0.1);
+
 
         this.addScreen();
         this.setBaseGrid();
@@ -137,18 +157,15 @@ export default class HallSchemeEditorManipulator {
     }
 
     //Добавление экрана на схему
-    public addScreen(): void {
-        //Расчет длины экрана
-        const canvasWidth = this.canvas.width;
-        const canvasHeight = this.canvas.height;
+    private addScreen(): void {
 
         //Координаты начала линии экрана (отступ по X 5%)
-        const startScreenLineX = Math.round(canvasWidth * 0.05);
-        const endScreenLineX = Math.round(canvasWidth * 0.95);
-        const middleScreenLineX = Math.round((startScreenLineX + endScreenLineX) / 2);
+        const startScreenLineX = this.startScreenLineX;
+        const endScreenLineX = this.endScreenLineX;
+        const middleScreenLineX = this.middleScreenLineX;
         
         //Координата начала и конца линии экрана по Y
-        const screenLineY = Math.round(canvasHeight * 0.1);
+        const screenLineY = this.screenLineY;
 
         //Задаем путь для линии экрана
         const screenLinePath = `M ${startScreenLineX} ${screenLineY} 
@@ -215,6 +232,39 @@ export default class HallSchemeEditorManipulator {
             this.canvas.requestRenderAll();
         }
         
+    }
+
+    //Метод изменения длины экрана
+    //tFactor - точка отступа на кривой безье от базовой линии экрана
+    public changeScreenLength(tFactor: number): void {
+
+        if (!!this.screenLine) {
+
+            if (!!this.screenLine.path[1][1] && !!this.screenLine.path[1][2]) {
+
+                //Расчет линии экрана без изменения длины
+                const baseScreenPath: TSimplePathData = [
+                    ['M',
+                        this.startScreenLineX, this.screenLineY],
+                    ['Q',
+                        this.screenLine.path[1][1], this.screenLine.path[1][2],
+                        this.endScreenLineX, this.screenLineY]];
+
+                //Получаем новые X для начала и конца новой линии экрана
+                const newStartScreenX = this.getQuadraticBezierCurvePoint(tFactor, baseScreenPath).x;
+                const newEndScreenX = this.getQuadraticBezierCurvePoint(1 - tFactor, baseScreenPath).x;
+
+                baseScreenPath[0][1] = newStartScreenX;
+                baseScreenPath[1][3] = newEndScreenX;
+                this.screenLine.set({
+                    path: baseScreenPath
+                });
+            }
+
+            this.canvas.requestRenderAll();
+        }
+        
+
     }
 
     public dispose(): void {
