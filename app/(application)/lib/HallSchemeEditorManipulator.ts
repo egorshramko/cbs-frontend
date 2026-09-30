@@ -1,4 +1,4 @@
-import { Canvas, FabricText, Path, Rect, TParsedAbsoluteMoveToCommand, TSimpleParsedCommand, TSimplePathData } from "fabric";
+import { ActiveSelection, Canvas, FabricObject, FabricText, Path, Rect, TSimpleParsedCommand, TSimplePathData } from "fabric";
 
 interface CanvasPoint {
     x: number,
@@ -38,6 +38,8 @@ export default class HallSchemeEditorManipulator {
             backgroundColor: "#e8e8e8"
         });
 
+        this.assignCanvasEventListeners();
+
         this.workspaceRows = 10;
         this.workspaceColumns = 10;
         this.workspaceHorizontalGap = 10;
@@ -55,6 +57,54 @@ export default class HallSchemeEditorManipulator {
         this.setBaseGrid();
 
         this.canvas.renderAll();
+    }
+
+    private assignCanvasEventListeners(): void {
+        this.canvas.on('selection:created', (event) => {
+            if (event.selected?.length > 1) {
+                const selection = this.canvas.getActiveObject();
+                
+                const selectedObjects = event.selected;
+
+                console.debug("selection");
+                console.debug(selection);
+
+
+
+                selection?.set({
+                    hasControls: false,
+                    hasBorders: false,
+                    lockMovementY: true,
+                    lockMovementX: true,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    lockRotation: true,
+                    hoverCursor: 'pointer'
+                });
+
+                this.canvas.requestRenderAll();
+            }
+        });
+
+        this.canvas.on('selection:updated', () => {
+            const selection = this.canvas.getActiveObject();
+
+            if (selection?.type === 'activeSelection') {
+                selection.set({
+                    hasControls: false,
+                    hasBorders: false,
+                    lockMovementY: true,
+                    lockMovementX: true,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    lockRotation: true,
+                    hoverCursor: 'pointer',
+                    fill: 'green'
+                });
+            }
+
+            this.canvas.requestRenderAll();
+        });
     }
 
     //Установка базовой сетки по умолчанию
@@ -112,9 +162,43 @@ export default class HallSchemeEditorManipulator {
                         ry: workspaceCellBorderRadius,
                         cornerStyle: 'circle',
                         hoverCursor: 'pointer',
+                        hasBorders: false,
                         hasControls: false,
-                        borderColor: "red"
+                        padding: 2,
                     });
+
+                    //Задаем реакцию клетки на событие одиночного нажатия мышью
+                    currentCell.on('mousedown', (event) => {
+                        const cell = event.target;
+                        
+                        //Для удаления отметки клетки нужно зажать shift
+                        if (!event.e.shiftKey) {
+
+                            //если клетка не отмечена как место, то отмечаем ее
+                            if (!cell?.hasFill()) {
+                                this.markCellAsPlace(cell);
+                            }
+
+                            //если клетка отмечена как место, то выделяем ее для редактирования
+                            else if (!cell?.hasBorders) {
+
+                                //TODO: тут должны открываться параметры места (что-то вроде того)
+                                this.selectCell(cell);
+                                
+                            }
+
+                            //если клетка редактировалась, то снимаем выделение
+                            else {
+                                this.deselectCell(cell);
+                            }
+                        }
+                        else {
+                            this.unmarkCellAsPlace(cell);
+                        }
+
+                        this.canvas.requestRenderAll();
+                    });
+
                     currentCell.controls.mtr.visible = false;
 
                     this.canvas.add(currentCell);
@@ -125,6 +209,35 @@ export default class HallSchemeEditorManipulator {
         }
         
 
+    }
+    
+    private markCellAsPlace(cell: FabricObject | undefined): void {
+
+        cell?.set({
+            fill: '#6D28D9',
+            stroke: '#6D28D9'
+        });
+    }
+
+    private unmarkCellAsPlace(cell: FabricObject | undefined): void {
+        cell?.set({
+            hasBorders: false,
+            fill: '',
+            stroke: 'black'
+        });
+    }
+
+    private selectCell(cell: FabricObject | undefined): void {
+        cell?.set({
+            hasBorders: true,
+            borderColor: "red"
+        });
+    }
+
+    private deselectCell(cell: FabricObject | undefined): void {
+        cell?.set({
+            hasBorders: false
+        });
     }
 
     public changeGridParameters(workspaceRows?: number, workspaceColumns?: number, 
