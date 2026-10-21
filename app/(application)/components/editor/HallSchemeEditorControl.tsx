@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import HallSchemeEditorManipulator from "../../lib/HallSchemeEditorManipulator";
-import { Box, Slider, Typography } from "@mui/material";
+import { Box, Button, Slider, Typography } from "@mui/material";
 
 let canvasManipulator: HallSchemeEditorManipulator;
 
@@ -169,6 +169,14 @@ export default function HallSchemeEditorControl({
           max={20}
           onChange={(event, value) => { canvasManipulator.changeGridParameters(undefined, undefined, undefined, value) }}
         />
+      </Box>
+      <Box sx={{
+        display: "flex",
+        width: "100%"
+      }}>
+        <Button variant="contained" onClick={ () => canvasManipulator.exportScheme() }>
+          Экспорт схемы
+        </Button>
       </Box>
     </Box>
     

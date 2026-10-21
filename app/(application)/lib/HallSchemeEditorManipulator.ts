@@ -384,6 +384,23 @@ export default class HallSchemeEditorManipulator {
         this.canvas.dispose();
     }
 
+    public exportScheme() {
+
+        const canvasJson = this.canvas.toJSON();
+        const jsonBlob = new Blob([JSON.stringify(canvasJson)], {type: 'application/json'});
+        const url = URL.createObjectURL(jsonBlob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'scheme.json';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+    }
+
     private calculateVerticalScreenLabelPosition(): number {
 
         if (!this.screenLine) {
