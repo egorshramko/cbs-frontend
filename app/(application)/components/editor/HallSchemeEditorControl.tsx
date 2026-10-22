@@ -2,26 +2,26 @@ import { useEffect } from "react";
 import HallSchemeEditorManipulator from "../../lib/HallSchemeEditorManipulator";
 import { Box, Button, Slider, Typography } from "@mui/material";
 
-let canvasManipulator: HallSchemeEditorManipulator;
+//let canvasManipulator: HallSchemeEditorManipulator;
 
 export default function HallSchemeEditorControl({
-  canvasRef
+  canvasManipulator
 } : {
-  canvasRef: React.RefObject<HTMLCanvasElement | null>
+  canvasManipulator: HallSchemeEditorManipulator | null
 }) {
 
-  useEffect(() => {
-    if (!!canvasRef.current) {
-      canvasManipulator = new HallSchemeEditorManipulator(canvasRef.current);
-    }
+  // useEffect(() => {
+  //   if (!!canvasRef.current) {
+  //     canvasManipulator = new HallSchemeEditorManipulator(canvasRef.current);
+  //   }
 
-    return () => {
-      canvasManipulator.dispose();
-    }
-  }, [canvasRef]);
+  //   return () => {
+  //     canvasManipulator.dispose();
+  //   }
+  // }, [canvasRef]);
 
   function handleChangeScreenCurvative(event: Event, value: number) {
-    canvasManipulator.changeScreenCurvative(value - 1);   
+    canvasManipulator?.changeScreenCurvative(value - 1);   
   }
 
   return (
@@ -80,7 +80,7 @@ export default function HallSchemeEditorControl({
           step={0.05}
           min={0.0}
           max={0.4}
-          onChange={(event, value) => { canvasManipulator.changeScreenLength(value) }}
+          onChange={(event, value) => { canvasManipulator?.changeScreenLength(value) }}
         />
       </Box>
       <Typography variant="body1">
@@ -104,7 +104,7 @@ export default function HallSchemeEditorControl({
           step={1}
           min={1}
           max={40}
-          onChange={ (event, value) => { canvasManipulator.changeGridParameters(value) } }
+          onChange={ (event, value) => { canvasManipulator?.changeGridParameters(value) } }
         />
       </Box>
       <Box sx={{
@@ -125,7 +125,7 @@ export default function HallSchemeEditorControl({
           step={1}
           min={1}
           max={40}
-          onChange={ (event, value) => { canvasManipulator.changeGridParameters(undefined, value) } }
+          onChange={ (event, value) => { canvasManipulator?.changeGridParameters(undefined, value) } }
         />
       </Box>
       <Box sx={{
@@ -146,7 +146,7 @@ export default function HallSchemeEditorControl({
           step={1}
           min={1}
           max={20}
-          onChange={ (event, value) => { canvasManipulator.changeGridParameters(undefined, undefined, value) } }
+          onChange={ (event, value) => { canvasManipulator?.changeGridParameters(undefined, undefined, value) } }
         />
       </Box>
       <Box sx={{
@@ -167,14 +167,14 @@ export default function HallSchemeEditorControl({
           step={1}
           min={1}
           max={20}
-          onChange={(event, value) => { canvasManipulator.changeGridParameters(undefined, undefined, undefined, value) }}
+          onChange={(event, value) => { canvasManipulator?.changeGridParameters(undefined, undefined, undefined, value) }}
         />
       </Box>
       <Box sx={{
         display: "flex",
         width: "100%"
       }}>
-        <Button variant="contained" onClick={ () => canvasManipulator.exportScheme() }>
+        <Button variant="contained" onClick={ () => canvasManipulator?.exportScheme() }>
           Экспорт схемы
         </Button>
       </Box>
