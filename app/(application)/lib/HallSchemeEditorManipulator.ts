@@ -61,6 +61,8 @@ export default class HallSchemeEditorManipulator {
 
     private assignCanvasEventListeners(): void {
         this.canvas.on('selection:created', (event) => {
+
+            console.log("Выделение создано");
             if (event.selected?.length > 1) {
                 const selection = this.canvas.getActiveObject();
                 
@@ -68,7 +70,6 @@ export default class HallSchemeEditorManipulator {
 
                 console.debug("selection");
                 console.debug(selection);
-
 
 
                 selection?.set({
@@ -82,26 +83,56 @@ export default class HallSchemeEditorManipulator {
                     hoverCursor: 'pointer'
                 });
 
+                //Получение выделенных объектов
+                const activeObjects = this.canvas.getActiveObjects();
+                activeObjects.forEach((obj) => {
+                    if (obj.type === "rect") {
+                        this.markCellAsPlace(obj);
+                    }
+                });
+
+                if (selection?.type === 'activeselection') {
+                    this.canvas.discardActiveObject();
+                }
+
                 this.canvas.requestRenderAll();
             }
         });
 
-        this.canvas.on('selection:updated', () => {
+        this.canvas.on('selection:updated', (event) => {
+            console.log("Выделение обновлено");
             const selection = this.canvas.getActiveObject();
 
-            if (selection?.type === 'activeSelection') {
-                selection.set({
-                    hasControls: false,
-                    hasBorders: false,
-                    lockMovementY: true,
-                    lockMovementX: true,
-                    lockScalingX: true,
-                    lockScalingY: true,
-                    lockRotation: true,
-                    hoverCursor: 'pointer',
-                    fill: 'green'
-                });
+            console.debug("selected");
+            console.debug(event.selected);
+
+            console.debug("selection");
+            console.debug(selection);
+
+            // selection?.set({
+            //     hasControls: false,
+            //     hasBorders: false,
+            //     selectable: false,
+            //     evented: false
+            // });
+
+            if (selection?.type === 'activeselection') {
+                this.canvas.discardActiveObject();
             }
+
+            // if (selection?.type === 'activeSelection') {
+            //     selection.set({
+            //         hasControls: false,
+            //         hasBorders: false,
+            //         lockMovementY: true,
+            //         lockMovementX: true,
+            //         lockScalingX: true,
+            //         lockScalingY: true,
+            //         lockRotation: true,
+            //         hoverCursor: 'pointer',
+            //         fill: 'green'
+            //     });
+            // }
 
             this.canvas.requestRenderAll();
         });
