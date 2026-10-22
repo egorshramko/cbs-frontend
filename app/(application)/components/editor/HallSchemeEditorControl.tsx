@@ -1,24 +1,11 @@
-import { useEffect } from "react";
 import HallSchemeEditorManipulator from "../../lib/HallSchemeEditorManipulator";
 import { Box, Button, Slider, Typography } from "@mui/material";
-
-//let canvasManipulator: HallSchemeEditorManipulator;
 
 export default function HallSchemeEditorControl({
   canvasManipulator
 } : {
   canvasManipulator: HallSchemeEditorManipulator | null
 }) {
-
-  // useEffect(() => {
-  //   if (!!canvasRef.current) {
-  //     canvasManipulator = new HallSchemeEditorManipulator(canvasRef.current);
-  //   }
-
-  //   return () => {
-  //     canvasManipulator.dispose();
-  //   }
-  // }, [canvasRef]);
 
   function handleChangeScreenCurvative(event: Event, value: number) {
     canvasManipulator?.changeScreenCurvative(value - 1);   
