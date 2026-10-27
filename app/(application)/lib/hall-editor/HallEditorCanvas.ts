@@ -10,6 +10,7 @@ export class HallEditorCanvas extends Canvas {
             options = HallEditorCanvas.getDefaultOptions();
         }
         super(canvas, options);
+        super.requestRenderAll();
     }
 
     private static getDefaultOptions(): TCanvasOptions {
