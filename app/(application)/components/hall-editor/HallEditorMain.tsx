@@ -11,7 +11,6 @@ import { HallEditorCanvasController } from "../../lib/hall-editor/controller/Hal
 export default function HallEditorMain() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [mainCanvas, setMainCanvas] = useState<HallEditorCanvas | null>(null);
 
   useEffect(() => {
 
@@ -21,13 +20,12 @@ export default function HallEditorMain() {
 
     const canvas = new HallEditorCanvas(canvasRef.current);
     canvas.controller = new HallEditorCanvasController();
-    setMainCanvas(canvas);
 
     return () => {
-      mainCanvas?.dispose();
+      canvas.dispose();
     }
 
-  }, [canvasRef, mainCanvas]);
+  }, [canvasRef]);
 
   return (
     <Box sx={{
