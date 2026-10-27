@@ -11,10 +11,12 @@ export class ElementsLibraryController implements IEditorController {
         this._hallEditorCanvas = hallEditorCanvas;
     }
 
-    public handleEvent(event: EditorEvent, data: EditorEventData): void {
+    public handleEvent(event: EditorEvent, data?: EditorEventData): void {
         switch (event) {
             case EditorEvent.CHANGE_SELECTED_ELEMENT:
-                this.handleChangeSelectedElement(data);
+                if (!!data) {
+                    this.handleChangeSelectedElement(data);
+                }
                 break;
         }
     }

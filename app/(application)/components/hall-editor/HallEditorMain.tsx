@@ -27,7 +27,7 @@ export default function HallEditorMain() {
     }
 
     const canvas = new HallEditorCanvas(canvasRef.current);
-    canvas.controller = new HallEditorCanvasController();
+    canvas.controller = new HallEditorCanvasController(canvas);
 
     setElementsLibraryController(new ElementsLibraryController(canvas));
 

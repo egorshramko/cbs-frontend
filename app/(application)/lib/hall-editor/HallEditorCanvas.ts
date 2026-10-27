@@ -1,6 +1,7 @@
 import { Canvas } from "fabric";
 import type { CanvasOptions, TOptions } from 'fabric';
 import { IEditorController } from "./controller/IEditorController";
+import { EditorEvent } from "./events/EditorEvent";
 
 export type TCanvasOptions = TOptions<CanvasOptions>;
 
@@ -11,20 +12,15 @@ export class HallEditorCanvas extends Canvas {
 
     constructor(
             canvas?: HTMLCanvasElement, 
-            options?: TCanvasOptions, 
-            controller?: IEditorController
+            options?: TCanvasOptions
     ) {
         if (!options) {
             options = HallEditorCanvas._getDefaultOptions();
         }
         super(canvas, options);
 
-        if (!!controller) {
-            this.controller = controller;
-        }
-
         this._selectedLibraryElement = null;
-
+        this._initializeInternalEvents();
         super.requestRenderAll();
     }
 
@@ -34,6 +30,11 @@ export class HallEditorCanvas extends Canvas {
             height: 600,
             backgroundColor: "#e8e8e8"
         }
+    }
+
+    //Инициализация внутренних событий (клики по canvas, перемещения и пр.)
+    private _initializeInternalEvents() {
+        
     }
 
     public set controller(controller: IEditorController) {
