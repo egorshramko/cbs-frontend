@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import HallEditorArea from "./components/HallEditorArea";
 import HallEditorElementProperties from "./components/HallEditorElementProperties";
 import { HallEditorCanvas } from "../../lib/hall-editor/HallEditorCanvas";
+import { HallEditorCanvasController } from "../../lib/hall-editor/controller/HallEditorCanvasController";
 
 export default function HallEditorMain() {
 
@@ -19,6 +20,7 @@ export default function HallEditorMain() {
     }
 
     const canvas = new HallEditorCanvas(canvasRef.current);
+    canvas.controller = new HallEditorCanvasController();
     setMainCanvas(canvas);
 
     return () => {
