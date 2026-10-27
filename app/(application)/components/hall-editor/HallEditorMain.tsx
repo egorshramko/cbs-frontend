@@ -7,10 +7,18 @@ import HallEditorArea from "./components/HallEditorArea";
 import HallEditorElementProperties from "./components/HallEditorElementProperties";
 import { HallEditorCanvas } from "../../lib/hall-editor/HallEditorCanvas";
 import { HallEditorCanvasController } from "../../lib/hall-editor/controller/HallEditorCanvasController";
+import { ElementsLibraryController } from "../../lib/hall-editor/controller/ElementsLibraryController";
 
 export default function HallEditorMain() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [selectedElement, setSelectedElement] = useState<string | null>(null);
+  const [elementsLibraryController, setElementsLibraryController] = useState<ElementsLibraryController>();
+
+  function handleChangeLibraryElement(element: string) {
+    console.log(element);
+    setSelectedElement(element);
+  }
 
   useEffect(() => {
 
@@ -21,6 +29,8 @@ export default function HallEditorMain() {
     const canvas = new HallEditorCanvas(canvasRef.current);
     canvas.controller = new HallEditorCanvasController();
 
+    setElementsLibraryController(new ElementsLibraryController(canvas));
+
     return () => {
       canvas.dispose();
     }
@@ -29,9 +39,13 @@ export default function HallEditorMain() {
 
   return (
     <Box sx={{
-      display: "flex"
+      display: "flex",
+      gap: "10px"
     }}>
-      <HallEditorElementsLibrary />
+      <HallEditorElementsLibrary 
+        selectedElement={ selectedElement } 
+        controller = { elementsLibraryController }
+        onChangeElement={ handleChangeLibraryElement } />
       <HallEditorArea canvasRef={ canvasRef } />
       <HallEditorElementProperties />
     </Box>
