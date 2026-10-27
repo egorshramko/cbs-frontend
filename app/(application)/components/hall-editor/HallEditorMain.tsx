@@ -24,10 +24,10 @@ export default function HallEditorMain() {
     setMainCanvas(canvas);
 
     return () => {
-      canvas.dispose();
+      mainCanvas?.dispose();
     }
 
-  }, [canvasRef]);
+  }, [canvasRef, mainCanvas]);
 
   return (
     <Box sx={{
