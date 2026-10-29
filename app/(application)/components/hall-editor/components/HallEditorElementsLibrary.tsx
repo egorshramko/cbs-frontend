@@ -4,6 +4,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import { IEditorController } from "@/app/(application)/lib/hall-editor/controller/IEditorController";
 import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEvent";
+import { ObjectType } from "@/app/(application)/lib/hall-editor/objects/ObjectType";
 
 export default function HallEditorElementsLibrary({
   selectedElement,
@@ -17,7 +18,7 @@ export default function HallEditorElementsLibrary({
 
   function handleChangeLibraryElement(event: React.MouseEvent<HTMLElement>, element: string) {
     controller?.handleEvent(EditorEvent.CHANGE_SELECTED_ELEMENT, {
-      selectedElement: element
+      selectedElement: element as ObjectType
     });
     onChangeElement(element);
   }

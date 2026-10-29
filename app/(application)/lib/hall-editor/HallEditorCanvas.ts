@@ -1,14 +1,15 @@
-import { Canvas } from "fabric";
-import type { CanvasOptions, TOptions } from 'fabric';
+import { Canvas, FabricObject } from "fabric";
+import type { CanvasOptions, Point, TOptions, TPointerEvent, TPointerEventInfo } from 'fabric';
 import { IEditorController } from "./controller/IEditorController";
 import { EditorEvent } from "./events/EditorEvent";
+import { ObjectType } from "./objects/ObjectType";
 
 export type TCanvasOptions = TOptions<CanvasOptions>;
 
 export class HallEditorCanvas extends Canvas {
     
     private _controller?: IEditorController;
-    private _selectedLibraryElement: string | null;
+    private _selectedLibraryElement: ObjectType | null;
 
     constructor(
             canvas?: HTMLCanvasElement, 
@@ -34,7 +35,32 @@ export class HallEditorCanvas extends Canvas {
 
     //Инициализация внутренних событий (клики по canvas, перемещения и пр.)
     private _initializeInternalEvents() {
-        
+        this.on('mouse:up', this._handleMouseClick);
+    }
+
+    private _handleMouseClick(event: TPointerEventInfo<TPointerEvent>) {
+        console.log("canvas clicked");
+        const point = event.scenePoint;
+        if (this._isClickedToObject(point)) {
+
+        }
+        else {
+            this._addHallObject(point);
+        }
+    }
+
+    private _isClickedToObject(point: Point): boolean {
+        return this.getObjects()
+            .filter((obj) => obj.left === point.x && obj.top === point.y).length > 0;
+    }
+
+    private _addHallObject(point: Point) {
+        if (!!this._selectedLibraryElement) {
+            this._controller?.handleEvent(EditorEvent.OBJECT_ADD, {
+                point: point,
+                type: this._selectedLibraryElement
+            });
+        }
     }
 
     public set controller(controller: IEditorController) {
@@ -45,7 +71,7 @@ export class HallEditorCanvas extends Canvas {
         return this._controller;
     }
 
-    public set selectedLibraryElement(element: string | null | undefined) {
+    public set selectedLibraryElement(element: ObjectType | null | undefined) {
         
         if (!element) {
             this._selectedLibraryElement = null;
