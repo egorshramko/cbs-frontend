@@ -1,14 +1,14 @@
 import { EditorEventData } from "../events/data/EditorEventData";
 import { EditorEvent } from "../events/EditorEvent";
-import { HallEditorCanvas } from "../HallEditorCanvas";
+import { ElementsLibrary } from "../model/ElementsLibrary";
 import { IEditorController } from "./IEditorController";
 
 export class ElementsLibraryController implements IEditorController {
 
-    private _hallEditorCanvas: HallEditorCanvas;
+    private _elementsLibrary: ElementsLibrary;
 
-    constructor(hallEditorCanvas: HallEditorCanvas) {
-        this._hallEditorCanvas = hallEditorCanvas;
+    constructor(elementsLibrary: ElementsLibrary) {
+        this._elementsLibrary = elementsLibrary;
     }
 
     public handleEvent(event: EditorEvent, data?: EditorEventData): void {
@@ -22,9 +22,7 @@ export class ElementsLibraryController implements IEditorController {
     }
 
     public handleChangeSelectedElement(data: EditorEventData) {
-        
-        this._hallEditorCanvas.selectedLibraryElement = data.selectedElement;
-        
+        this._elementsLibrary.selectedObjectType = data.selectedElement; 
     }
 
 }

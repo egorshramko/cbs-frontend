@@ -8,6 +8,7 @@ import HallEditorElementProperties from "./components/HallEditorElementPropertie
 import { HallEditorCanvas } from "../../lib/hall-editor/HallEditorCanvas";
 import { HallEditorCanvasController } from "../../lib/hall-editor/controller/HallEditorCanvasController";
 import { ElementsLibraryController } from "../../lib/hall-editor/controller/ElementsLibraryController";
+import { ElementsLibrary } from "../../lib/hall-editor/model/ElementsLibrary";
 
 export default function HallEditorMain() {
 
@@ -27,9 +28,10 @@ export default function HallEditorMain() {
     }
 
     const canvas = new HallEditorCanvas(canvasRef.current);
-    canvas.controller = new HallEditorCanvasController(canvas);
+    const library = new ElementsLibrary();
+    canvas.controller = new HallEditorCanvasController(canvas, library);
 
-    setElementsLibraryController(new ElementsLibraryController(canvas));
+    setElementsLibraryController(new ElementsLibraryController(library));
 
     return () => {
       canvas.dispose();
