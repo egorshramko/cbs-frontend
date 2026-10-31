@@ -1,37 +1,64 @@
-import { FabricObject, FabricText, Path, Point } from "fabric";
+import { FabricText, Path, Point } from "fabric";
 import { HallObject } from "./HallObject";
 
 export class HallScreen extends HallObject {
 
-    constructor(point: Point) {
-        super(HallScreen._getDefaultComponents(), {
-            left: point.x,
-            top: point.y
-        });
-    }
+    private _screenLine: Path;
+    private _label: FabricText;
 
-    private static _getDefaultComponents(): FabricObject[] {
+    constructor(point: Point) {
         const screenLine = HallScreen._createScreenLine();
         const label = HallScreen._createLabel();
 
-        return [screenLine, label];
+        super([screenLine, label], {
+            left: point.x,
+            top: point.y
+        });
+
+        this._screenLine = screenLine;
+        this._label = label;
+        this._initDefaultEvents();
+        
     }
 
     private static _createScreenLine(): Path {
-        return new Path("M 0 0 Q 50 0 150 0", {
+        return new Path("M 0 10 Q 50 10 150 10", {
             left: 0,
             top: 10,
-            fill: "black",
-            stroke: 'red',
+            fill: null,
+            stroke: 'black',
             strokeWidth: 2
         });
     }
 
     private static _createLabel(): FabricText {
         return new FabricText("Экран", {
-            left: 50,
-            top: 50
+            left: 0,
+            top: 30,
+            originX: 'center',
+            lockScalingX: true,
+            lockScalingY: true,
+            fontFamily: "Inter, sans-serif", 
+            fontSize: 12
         });
+    }
+
+    private _initDefaultEvents() {
+        this.on('scaling', this._handleScaling);
+    }
+
+    private _handleScaling() {
+        this._screenLine.set({
+            scaleY: 1 / this.scaleY
+        });
+
+        this._label.set({
+            scaleX: 1 / this.scaleX,
+            scaleY: 1 / this.scaleY
+        });
+
+        this._label.setCoords();
+        this._screenLine.setCoords();
     }
 
 }

@@ -39,17 +39,16 @@ export class HallEditorCanvas extends Canvas {
     private _handleMouseClick(event: TPointerEventInfo<TPointerEvent>) {
         console.log("canvas clicked");
         const point = event.scenePoint;
-        if (this._isClickedToObject(point)) {
-
-        }
-        else {
+        if (!this._isClickedToObject(event)) {
             this._addHallObject(point);
         }
     }
 
-    private _isClickedToObject(point: Point): boolean {
-        return this.getObjects()
-            .filter((obj) => obj.left === point.x && obj.top === point.y).length > 0;
+    private _isClickedToObject(eventInfo: TPointerEventInfo<TPointerEvent>): boolean {
+        const targetInfo = this.findTarget(eventInfo.e);
+        console.debug("target")
+        console.debug(targetInfo.target);
+        return !!targetInfo.target;
     }
 
     private _addHallObject(point: Point) {
