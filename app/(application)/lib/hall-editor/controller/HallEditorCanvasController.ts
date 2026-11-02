@@ -8,13 +8,16 @@ export class HallEditorCanvasController implements IEditorController {
 
     private _hallEditorCanvas: HallEditorCanvas;
     private _elementsLibrary: ElementsLibrary;
+    private _reactEventHandler: IEditorController;
 
     constructor(
         hallEditorCanvas: HallEditorCanvas,
-        elementsLibrary: ElementsLibrary
+        elementsLibrary: ElementsLibrary,
+        reactEventHandler: IEditorController
     ) {
         this._hallEditorCanvas = hallEditorCanvas;
         this._elementsLibrary = elementsLibrary;
+        this._reactEventHandler = reactEventHandler;
     }
 
     //этот метод нужен для получения событий из холста
@@ -31,6 +34,8 @@ export class HallEditorCanvasController implements IEditorController {
                 }
                 break;
         }
+
+        this._reactEventHandler.handleEvent(event, data);
     }
 
 

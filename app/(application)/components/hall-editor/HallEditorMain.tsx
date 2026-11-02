@@ -9,6 +9,8 @@ import { HallEditorCanvas } from "../../lib/hall-editor/HallEditorCanvas";
 import { HallEditorCanvasController } from "../../lib/hall-editor/controller/HallEditorCanvasController";
 import { ElementsLibraryController } from "../../lib/hall-editor/controller/ElementsLibraryController";
 import { ElementsLibrary } from "../../lib/hall-editor/model/ElementsLibrary";
+import { ReactEventHandler } from "../../lib/hall-editor/events/ReactEventHandler";
+import { EditorEvent } from "../../lib/hall-editor/events/EditorEvent";
 
 export default function HallEditorMain() {
 
@@ -21,6 +23,10 @@ export default function HallEditorMain() {
     setSelectedElement(element);
   }
 
+  function handleAddObject() {
+    
+  }
+  
   useEffect(() => {
 
     if (!canvasRef.current) {
@@ -29,7 +35,9 @@ export default function HallEditorMain() {
 
     const canvas = new HallEditorCanvas(canvasRef.current);
     const library = new ElementsLibrary();
-    canvas.controller = new HallEditorCanvasController(canvas, library);
+    const reactEventHandler = new ReactEventHandler();
+    reactEventHandler.registerEventHandler(EditorEvent.OBJECT_ADD, handleAddObject);
+    canvas.controller = new HallEditorCanvasController(canvas, library, reactEventHandler);
 
     setElementsLibraryController(new ElementsLibraryController(library));
 
