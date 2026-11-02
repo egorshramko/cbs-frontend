@@ -1,5 +1,5 @@
 import { Canvas } from "fabric";
-import type { CanvasOptions, Point, TOptions, TPointerEvent, TPointerEventInfo } from 'fabric';
+import type { CanvasOptions, FabricObject, Point, TEvent, TOptions, TPointerEvent, TPointerEventInfo } from 'fabric';
 import { IEditorController } from "./controller/IEditorController";
 import { EditorEvent } from "./events/EditorEvent";
 import { HallObject } from "./objects/HallObject";
@@ -9,6 +9,7 @@ export type TCanvasOptions = TOptions<CanvasOptions>;
 export class HallEditorCanvas extends Canvas {
     
     private _controller?: IEditorController;
+    private _hadSelectionBeforeClick: boolean;
 
     constructor(
             canvas?: HTMLCanvasElement, 
@@ -18,6 +19,8 @@ export class HallEditorCanvas extends Canvas {
             options = HallEditorCanvas._getDefaultOptions();
         }
         super(canvas, options);
+
+        this._hadSelectionBeforeClick = false;
 
         this._initializeInternalEvents();
         super.requestRenderAll();
@@ -33,15 +36,35 @@ export class HallEditorCanvas extends Canvas {
 
     //Инициализация внутренних событий (клики по canvas, перемещения и пр.)
     private _initializeInternalEvents() {
-        this.on('mouse:up', this._handleMouseClick);
+        this.on('mouse:down:before', () => {
+            this._hadSelectionBeforeClick = !!this.getActiveObject();
+        });
+        this.on('mouse:down', this._handleMouseClick);
+        this.on('selection:cleared', this._handleClearSelection);
     }
 
     private _handleMouseClick(event: TPointerEventInfo<TPointerEvent>) {
         console.log("canvas clicked");
         const point = event.scenePoint;
         if (!this._isClickedToObject(event)) {
-            this._addHallObject(point);
+            console.debug("click to empty space");
+            if (!this._hadSelectionBeforeClick) {
+                console.debug("object not selected");
+                this._addHallObject(point);
+            }
+            else {
+                console.debug("object was deselect");
+            }
+            
         }
+    }
+
+    private _handleClearSelection(event: Partial<TEvent<TPointerEvent>> & {deselected: FabricObject[]}) {
+        console.debug("selection cleared");
+        console.debug("deselected object");
+        console.debug(event.deselected[0]);
+
+        //event.deselected.forEach((obj) => this.setActiveObject(obj));
     }
 
     private _isClickedToObject(eventInfo: TPointerEventInfo<TPointerEvent>): boolean {
