@@ -5,12 +5,20 @@ export class Seat extends HallObject {
     
     constructor(point: Point) {
         const components: FabricObject[] = [
-            new Circle()
+            new Circle({
+                fill: "",
+                stroke: "black",
+                strokeWidth: 2,
+                radius: 10
+            })
         ];
 
         super(components, {
             left: point.x,
-            top: point.y
+            top: point.y,
+            lockScalingX: true,
+            lockScalingY: true,
+            hasControls: false
         });
     }
 
