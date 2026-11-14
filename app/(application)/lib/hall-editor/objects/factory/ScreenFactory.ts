@@ -16,7 +16,11 @@ export class ScreenFactory implements HallObjectFactory {
     }
 
     public createObjects(point: Point): HallObject[] {
-        return [];
+        //TODO: сделать нормальное добавление нескольких экранов
+
+        const screen: HallObject = this.createObject(point); 
+
+        return [screen];
     }
 
 }
