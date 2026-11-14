@@ -3,13 +3,16 @@ import { HallObject } from "./HallObject";
 
 export class Seat extends HallObject {
     
+    public static readonly baseRadius: number = 10;
+    public static readonly baseStrokeWidth: number = 2;
+
     constructor(point: Point) {
         const components: FabricObject[] = [
             new Circle({
                 fill: "",
                 stroke: "black",
-                strokeWidth: 2,
-                radius: 10
+                strokeWidth: Seat.baseStrokeWidth,
+                radius: Seat.baseRadius
             })
         ];
 
