@@ -6,9 +6,11 @@ import { ObjectType } from "../objects/ObjectType";
 export class ElementsLibrary {
 
     private _selectedObjectType: ObjectType | null | undefined;
+    private _elementsCount: number;
 
     constructor() {
         this._selectedObjectType = null;
+        this._elementsCount = 1;
     }
 
     public set selectedObjectType(type: ObjectType | null | undefined) {
@@ -22,13 +24,21 @@ export class ElementsLibrary {
         return this._selectedObjectType;
     }
 
+    public set elementsCount(count: number) {
+        this._elementsCount = count;
+    } 
+
+    public get elementsCount(): number {
+        return this._elementsCount;
+    }
+
     public getObjectFactory(): HallObjectFactory | null {
         if (!!this._selectedObjectType) {
             switch (this._selectedObjectType) {
                 case ObjectType.SCREEN:
-                    return new ScreenFactory();
+                    return new ScreenFactory(this._elementsCount);
                 case ObjectType.SEAT:
-                    return new SeatFactory();
+                    return new SeatFactory(this._elementsCount);
             }
         }
         return null;

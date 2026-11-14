@@ -18,11 +18,21 @@ export class ElementsLibraryController implements IEditorController {
                     this.handleChangeSelectedElement(data);
                 }
                 break;
+            case EditorEvent.CHANGE_ELEMENTS_COUNT:
+                if (!!data) {
+                    this.handleChangeElementsCount(data);
+                }
         }
     }
 
     public handleChangeSelectedElement(data: EditorEventData) {
         this._elementsLibrary.selectedObjectType = data.selectedElement; 
+    }
+
+    public handleChangeElementsCount(data: EditorEventData) {
+        if (data.elementsCount !== undefined) {
+            this._elementsLibrary.elementsCount = data.elementsCount;
+        }
     }
 
 }
