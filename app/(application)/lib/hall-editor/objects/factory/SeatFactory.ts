@@ -32,15 +32,18 @@ export class SeatFactory implements HallObjectFactory {
         //Вычисление длины и ширины зоны добавляемых объектов в пикселях
         const zoneSide = (seatSide + gapBetweenObjects) * sideLength - gapBetweenObjects;
 
-        //Вычисление центра первого элемента в первой строке (X = Y)
-        const firstElementCenterCoord = point.y - Math.round(zoneSide / 2) + Math.round(seatSide / 2);
+        //Вычисление центра первого элемента в первой строке
+        const firstElementCenterX = point.x - Math.round(zoneSide / 2) + Math.round(seatSide / 2);
+        const firstElementCenterY = point.y - Math.round(zoneSide / 2) + Math.round(seatSide / 2);
 
         const seats: HallObject[] = [];
 
         for (let row = 0; row < sideLength; row++) {
-            const rowCenterY = firstElementCenterCoord + row * (seatSide + gapBetweenObjects);
-            for (let col = 0; col < sideLength; col++) {
-                const seatX = firstElementCenterCoord + col * (seatSide + gapBetweenObjects);
+            const rowCenterY = firstElementCenterY + row * (seatSide + gapBetweenObjects);
+            for (let col = 0; 
+                    (row < sideLength - 1 && col < sideLength) || 
+                    (row >= sideLength - 1 && col < this._count % sideLength); col++) {
+                const seatX = firstElementCenterX + col * (seatSide + gapBetweenObjects);
                 const seatPoint: Point = new Point({
                     x: seatX, 
                     y: rowCenterY
