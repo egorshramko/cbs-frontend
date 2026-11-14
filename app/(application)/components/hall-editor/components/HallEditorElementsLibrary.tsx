@@ -5,6 +5,8 @@ import ToggleButton from "@mui/material/ToggleButton";
 import { IEditorController } from "@/app/(application)/lib/hall-editor/controller/IEditorController";
 import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEvent";
 import { ObjectType } from "@/app/(application)/lib/hall-editor/objects/ObjectType";
+import NumberField from "../../NumberField";
+import { NumberFieldRootChangeEventDetails } from "@base-ui/react";
 
 export default function HallEditorElementsLibrary({
   selectedElement,
@@ -21,6 +23,18 @@ export default function HallEditorElementsLibrary({
       selectedElement: element as ObjectType
     });
     onChangeElement(element);
+  }
+
+  function handleChangeElementsCount(
+    value: number | null,
+    eventDetails: NumberFieldRootChangeEventDetails
+  ) {
+    if (value !== null) {
+      controller?.handleEvent(EditorEvent.CHANGE_ELEMENTS_COUNT, {
+        elementsCount: value
+      });
+    }
+    
   }
 
   return (
@@ -47,6 +61,18 @@ export default function HallEditorElementsLibrary({
           Место
         </ToggleButton>
       </ToggleButtonGroup>
+      <Box sx={{
+        display: "flex"
+      }}>
+        <NumberField 
+          label="Количество элементов" 
+          min={ 1 } 
+          max={ 100 } 
+          defaultValue={ 1 } 
+          size="small" 
+          helperText="Значение должно быть от 1 до 100" 
+          onValueChange={ handleChangeElementsCount } />
+      </Box>
     </Box>
   );
 }
