@@ -1,10 +1,11 @@
-import { Canvas } from "fabric";
-import type { CanvasOptions, FabricObject, Point, TEvent, TOptions, TPointerEvent, TPointerEventInfo } from 'fabric';
+import { ActiveSelection, Canvas } from "fabric";
+import type { CanvasEvents, CanvasOptions, FabricObject, Point, TEvent, TOptions, TPointerEvent, TPointerEventInfo } from 'fabric';
 import { IEditorController } from "./controller/IEditorController";
 import { EditorEvent } from "./events/EditorEvent";
 import { HallObject } from "./objects/HallObject";
 
 export type TCanvasOptions = TOptions<CanvasOptions>;
+export type SelectionCreatedEvent = CanvasEvents['selection:created'];
 
 export class HallEditorCanvas extends Canvas {
     
@@ -40,6 +41,7 @@ export class HallEditorCanvas extends Canvas {
             this._hadSelectionBeforeClick = !!this.getActiveObject();
         });
         this.on('mouse:dblclick', this._handleMouseClick);
+        this.on('selection:created', this._handleCreateSelection);
         this.on('selection:cleared', this._handleClearSelection);
     }
 
@@ -57,6 +59,22 @@ export class HallEditorCanvas extends Canvas {
             }
             
         }
+    }
+
+    
+
+    private _handleCreateSelection(event: SelectionCreatedEvent) {
+
+        const activeObject = this.getActiveObject();
+        
+        if (activeObject instanceof ActiveSelection) {
+            console.log("is active selection");
+            activeObject.set({
+                borderColor: "red",
+                cornerColor: "red"
+            });
+        }
+        
     }
 
     private _handleClearSelection(event: Partial<TEvent<TPointerEvent>> & {deselected: FabricObject[]}) {
