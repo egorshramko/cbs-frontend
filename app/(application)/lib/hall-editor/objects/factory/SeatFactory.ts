@@ -38,11 +38,9 @@ export class SeatFactory implements HallObjectFactory {
 
         const seats: HallObject[] = [];
 
-        for (let row = 0; row < sideLength; row++) {
+        for (let row = 0; row < sideLength && seats.length < this._count; row++) {
             const rowCenterY = firstElementCenterY + row * (seatSide + gapBetweenObjects);
-            for (let col = 0; 
-                    (row < sideLength - 1 && col < sideLength) || 
-                    (row >= sideLength - 1 && col < this._count % sideLength); col++) {
+            for (let col = 0; col < sideLength && seats.length < this._count; col++) {
                 const seatX = firstElementCenterX + col * (seatSide + gapBetweenObjects);
                 const seatPoint: Point = new Point({
                     x: seatX, 
