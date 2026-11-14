@@ -6,7 +6,11 @@ export abstract class HallObject extends Group {
         objects: FabricObject[],
         options: Partial<GroupProps>
     ) {
-        super(objects, options);
+        super(objects, {
+            ...options,
+            borderColor: "red",
+            cornerColor: "red"
+        });
     }
 
 }
