@@ -35,9 +35,9 @@ export class HallEditorCanvasController implements IEditorController {
     public handleAddObject(data?: EditorEventData) {
         if (!!data?.point) {
             const objectFactory = this._elementsLibrary.getObjectFactory();
-            const objectForAdd = objectFactory?.createObject(data.point);
+            const objectForAdd = objectFactory?.createObjects(data.point);
             if (!!objectForAdd) {
-                this._hallEditorCanvas.addAndRender(objectForAdd);
+                this._hallEditorCanvas.addAndRender(...objectForAdd);
             }
         }
     }
