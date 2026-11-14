@@ -39,7 +39,7 @@ export class HallEditorCanvas extends Canvas {
         this.on('mouse:down:before', () => {
             this._hadSelectionBeforeClick = !!this.getActiveObject();
         });
-        this.on('mouse:down', this._handleMouseClick);
+        this.on('mouse:dblclick', this._handleMouseClick);
         this.on('selection:cleared', this._handleClearSelection);
     }
 
