@@ -69,10 +69,10 @@ export default function HallEditorElementsLibrary({
         <NumberField 
           label="Количество элементов" 
           min={ 1 } 
-          max={ 100 } 
+          max={ 400 } 
           defaultValue={ 1 } 
           size="small" 
-          helperText="Значение должно быть от 1 до 100" 
+          helperText="Значение должно быть от 1 до 400" 
           onValueChange={ handleChangeElementsCount } />
       </Box>
     </Box>
