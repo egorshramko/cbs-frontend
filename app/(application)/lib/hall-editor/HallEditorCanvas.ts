@@ -43,6 +43,7 @@ export class HallEditorCanvas extends Canvas {
         this.on('mouse:dblclick', this._handleMouseClick);
         this.on('selection:created', this._handleCreateSelection);
         this.on('selection:cleared', this._handleClearSelection);
+        
     }
 
     private _handleMouseClick(event: TPointerEventInfo<TPointerEvent>) {
@@ -65,8 +66,10 @@ export class HallEditorCanvas extends Canvas {
 
     private _handleCreateSelection(event: SelectionCreatedEvent) {
 
+        console.debug("selection created");
+
         const activeObject = this.getActiveObject();
-        
+
         if (activeObject instanceof ActiveSelection) {
             console.log("is active selection");
             activeObject.set({
@@ -74,6 +77,13 @@ export class HallEditorCanvas extends Canvas {
                 cornerColor: "red"
             });
         }
+
+        if (!!activeObject) {
+            this._controller?.handleEvent(EditorEvent.OBJECT_SELECTED, {
+                object: activeObject
+            });
+        }
+        
         
     }
 
@@ -83,6 +93,8 @@ export class HallEditorCanvas extends Canvas {
         console.debug(event.deselected[0]);
 
         //event.deselected.forEach((obj) => this.setActiveObject(obj));
+
+        this._controller?.handleEvent(EditorEvent.SELECTION_CLEARED);
     }
 
     private _isClickedToObject(eventInfo: TPointerEventInfo<TPointerEvent>): boolean {

@@ -11,20 +11,35 @@ import { ElementsLibraryController } from "../../lib/hall-editor/controller/Elem
 import { ElementsLibrary } from "../../lib/hall-editor/model/ElementsLibrary";
 import { ReactEventHandler } from "../../lib/hall-editor/events/ReactEventHandler";
 import { EditorEvent } from "../../lib/hall-editor/events/EditorEvent";
+import { EditorEventData } from "../../lib/hall-editor/events/data/EditorEventData";
 
 export default function HallEditorMain() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [selectedElement, setSelectedElement] = useState<string | null>(null);
   const [elementsLibraryController, setElementsLibraryController] = useState<ElementsLibraryController>();
+  const [showProperties, setShowProperties] = useState(false);
+  const [objectData, setObjectData] = useState<EditorEventData | null | undefined>(null);
 
   function handleChangeLibraryElement(element: string) {
     console.log(element);
     setSelectedElement(element);
   }
 
-  function handleAddObject() {
+  function handleAddObject(data?: EditorEventData) {
     
+  }
+
+  function handleObjectSelect(data?: EditorEventData) {
+    console.debug("selected object from react context");
+    console.debug(data?.object);
+    setShowProperties(true);
+    setObjectData(data);
+  }
+
+  function handleClearSelection(data?: EditorEventData) {
+    setShowProperties(false);
+    setObjectData(null);
   }
   
   useEffect(() => {
@@ -37,6 +52,8 @@ export default function HallEditorMain() {
     const library = new ElementsLibrary();
     const reactEventHandler = new ReactEventHandler();
     reactEventHandler.registerEventHandler(EditorEvent.OBJECT_ADD, handleAddObject);
+    reactEventHandler.registerEventHandler(EditorEvent.OBJECT_SELECTED, handleObjectSelect);
+    reactEventHandler.registerEventHandler(EditorEvent.SELECTION_CLEARED, handleClearSelection);
     canvas.controller = new HallEditorCanvasController(canvas, library, reactEventHandler);
 
     setElementsLibraryController(new ElementsLibraryController(library));
@@ -52,12 +69,19 @@ export default function HallEditorMain() {
       display: "flex",
       gap: "10px"
     }}>
-      <HallEditorElementsLibrary 
-        selectedElement={ selectedElement } 
-        controller = { elementsLibraryController }
-        onChangeElement={ handleChangeLibraryElement } />
+      <Box sx={{
+        display: "flex",
+        gap: "10px",
+        flexDirection: "column"
+      }}>
+        <HallEditorElementsLibrary
+          selectedElement={selectedElement}
+          controller={elementsLibraryController}
+          onChangeElement={handleChangeLibraryElement} />
+        <HallEditorElementProperties showProperties={showProperties} objectData={ objectData } />
+      </Box>
       <HallEditorArea canvasRef={ canvasRef } />
-      <HallEditorElementProperties />
+      
     </Box>
   );
 }

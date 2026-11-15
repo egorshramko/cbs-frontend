@@ -42,5 +42,4 @@ export class HallEditorCanvasController implements IEditorController {
         }
     }
 
-
 }
