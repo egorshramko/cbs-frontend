@@ -74,8 +74,12 @@ export class HallEditorCanvas extends Canvas {
             console.log("is active selection");
             activeObject.set({
                 borderColor: "red",
-                cornerColor: "red"
+                cornerColor: "red",
+                lockScalingX: true,
+                lockScalingY: true,
+                lockRotation: true
             });
+            activeObject.setControlVisible('mtr', false);
         }
 
         if (!!activeObject) {
