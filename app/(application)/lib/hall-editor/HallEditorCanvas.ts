@@ -163,8 +163,6 @@ export class HallEditorCanvas extends Canvas {
 
     public removeAndRender(...objects: FabricObject[]) {
 
-        console.log("remove and render launch");
-        console.log(objects);
         objects.forEach((obj) => {
             if (obj instanceof ActiveSelection) {
                 this.remove(...obj.getObjects());
