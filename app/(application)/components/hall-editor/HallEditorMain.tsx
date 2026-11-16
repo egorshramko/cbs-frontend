@@ -12,12 +12,14 @@ import { ElementsLibrary } from "../../lib/hall-editor/model/ElementsLibrary";
 import { ReactEventHandler } from "../../lib/hall-editor/events/ReactEventHandler";
 import { EditorEvent } from "../../lib/hall-editor/events/EditorEvent";
 import { EditorEventData } from "../../lib/hall-editor/events/data/EditorEventData";
+import ObjectPropertiesController from "../../lib/hall-editor/controller/ObjectPropertiesController";
 
 export default function HallEditorMain() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [selectedElement, setSelectedElement] = useState<string | null>(null);
   const [elementsLibraryController, setElementsLibraryController] = useState<ElementsLibraryController>();
+  const [objectPropsController, setObjectPropsController] = useState<ObjectPropertiesController>();
   const [showProperties, setShowProperties] = useState(false);
   const [objectData, setObjectData] = useState<EditorEventData | null | undefined>(null);
 
@@ -41,6 +43,10 @@ export default function HallEditorMain() {
     setShowProperties(false);
     setObjectData(null);
   }
+
+  function handleChangeObjectProperties(data?: EditorEventData) {
+
+  }
   
   useEffect(() => {
 
@@ -54,9 +60,11 @@ export default function HallEditorMain() {
     reactEventHandler.registerEventHandler(EditorEvent.OBJECT_ADD, handleAddObject);
     reactEventHandler.registerEventHandler(EditorEvent.OBJECT_SELECTED, handleObjectSelect);
     reactEventHandler.registerEventHandler(EditorEvent.SELECTION_CLEARED, handleClearSelection);
+    reactEventHandler.registerEventHandler(EditorEvent.CHANGE_OBJECT_PROPS, handleChangeObjectProperties);
     canvas.controller = new HallEditorCanvasController(canvas, library, reactEventHandler);
 
     setElementsLibraryController(new ElementsLibraryController(library));
+    setObjectPropsController(new ObjectPropertiesController(canvas, reactEventHandler));
 
     return () => {
       canvas.dispose();
@@ -78,7 +86,7 @@ export default function HallEditorMain() {
           selectedElement={selectedElement}
           controller={elementsLibraryController}
           onChangeElement={handleChangeLibraryElement} />
-        <HallEditorElementProperties showProperties={showProperties} objectData={ objectData } />
+        <HallEditorElementProperties showProperties={showProperties} objectData={ objectData } controller={ objectPropsController } />
       </Box>
       <HallEditorArea canvasRef={ canvasRef } />
       

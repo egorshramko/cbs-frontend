@@ -3,5 +3,6 @@ export enum EditorEvent {
     OBJECT_ADD = "Object add",
     CHANGE_ELEMENTS_COUNT = "Change elements count",
     OBJECT_SELECTED = "Object selected",
-    SELECTION_CLEARED = "Selection cleared"
+    SELECTION_CLEARED = "Selection cleared",
+    CHANGE_OBJECT_PROPS = "Change object properties"
 }

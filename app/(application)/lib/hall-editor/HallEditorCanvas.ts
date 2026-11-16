@@ -127,4 +127,14 @@ export class HallEditorCanvas extends Canvas {
         this.requestRenderAll();
     }
 
+    public moveObject(object: FabricObject, targetPoint: Point) {
+
+        object.set({
+            left: targetPoint.x,
+            top: targetPoint.y
+        });
+        object.setCoords();
+        this.requestRenderAll();
+    }
+
 }
