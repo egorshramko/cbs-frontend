@@ -8,6 +8,7 @@ export type TCanvasOptions = TOptions<CanvasOptions>;
 export type SelectionCreatedEvent = CanvasEvents['selection:created'];
 export type ObjectMovingEvent = CanvasEvents['object:moving'];
 export type ObjectScalingEvent = CanvasEvents['object:scaling'];
+export type SelectionUpdatedEvent = CanvasEvents['selection:updated'];
 
 export class HallEditorCanvas extends Canvas {
     
@@ -44,6 +45,7 @@ export class HallEditorCanvas extends Canvas {
         });
         this.on('mouse:dblclick', this._handleMouseClick);
         this.on('selection:created', this._handleCreateSelection);
+        this.on('selection:updated', this._handleUpdateSelection);
         this.on('selection:cleared', this._handleClearSelection);
         this.on('object:moving', this._handleObjectMoving);
         this.on('object:scaling', this._handleObjectScaling);
@@ -115,6 +117,12 @@ export class HallEditorCanvas extends Canvas {
         }
         
         
+    }
+
+    private _handleUpdateSelection(event: SelectionUpdatedEvent) {
+        this._controller?.handleEvent(EditorEvent.OBJECT_SELECTED, {
+            object: this.getActiveObject()
+        });
     }
 
     private _handleClearSelection(event: Partial<TEvent<TPointerEvent>> & {deselected: FabricObject[]}) {
