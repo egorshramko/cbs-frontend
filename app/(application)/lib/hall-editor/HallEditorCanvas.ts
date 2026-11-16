@@ -161,6 +161,23 @@ export class HallEditorCanvas extends Canvas {
         this.requestRenderAll();
     }
 
+    public removeAndRender(...objects: FabricObject[]) {
+
+        console.log("remove and render launch");
+        console.log(objects);
+        objects.forEach((obj) => {
+            if (obj instanceof ActiveSelection) {
+                this.remove(...obj.getObjects());
+            }
+            else {
+                this.remove(obj);
+            }
+        })
+
+        this.discardActiveObject();
+        this.requestRenderAll();
+    }
+
     public moveObject(object: FabricObject, targetPoint: Point) {
 
         object.set({

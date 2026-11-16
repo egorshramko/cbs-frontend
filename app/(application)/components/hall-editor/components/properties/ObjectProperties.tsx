@@ -3,6 +3,8 @@ import ObjectTypeProp from "./ObjectTypeProp";
 import { FabricObject } from "fabric";
 import { IEditorController } from "@/app/(application)/lib/hall-editor/controller/IEditorController";
 import ObjectCoordinates from "./ObjectCoordinates";
+import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEvent";
+import RemoveButton from "./RemoveButton";
 
 export default function ObjectProperties({
   object,
@@ -21,6 +23,9 @@ export default function ObjectProperties({
       <ObjectCoordinates 
         object={ object }
         controller={ controller } />
+      <RemoveButton onClick={ () => controller?.handleEvent(EditorEvent.REMOVE_OBJECT, {
+        object: object
+      }) } />
     </Box>
   );
 }

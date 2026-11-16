@@ -3,6 +3,7 @@ import { EditorEventData } from "../events/data/EditorEventData";
 import { EditorEvent } from "../events/EditorEvent";
 import { HallEditorCanvas } from "../HallEditorCanvas";
 import { IEditorController } from "./IEditorController";
+import { HallObject } from "../objects/HallObject";
 
 export default class ObjectPropertiesController implements IEditorController {
 
@@ -20,14 +21,17 @@ export default class ObjectPropertiesController implements IEditorController {
     public handleEvent(event: EditorEvent, data?: EditorEventData) {
         switch (event) {
             case EditorEvent.CHANGE_OBJECT_PROPS:
-                this.handleChangeObjectProps(data);
+                this._handleChangeObjectProps(data);
+                break;
+            case EditorEvent.REMOVE_OBJECT:
+                this._handleRemoveObject(data);
                 break;
         }
 
         this._callbackController.handleEvent(event, data);
     }
 
-    private handleChangeObjectProps(data?: EditorEventData) {
+    private _handleChangeObjectProps(data?: EditorEventData) {
 
         console.log("change object props");
         console.log(data);
@@ -39,6 +43,13 @@ export default class ObjectPropertiesController implements IEditorController {
             });
 
             this._canvas.moveObject(movingObject, targetPoint);
+        }
+    }
+    
+    private _handleRemoveObject(data?: EditorEventData) {
+        if (!!data && !!data.object) {
+            const removingObject = data.object;
+            this._canvas.removeAndRender(removingObject);
         }
     }
 
