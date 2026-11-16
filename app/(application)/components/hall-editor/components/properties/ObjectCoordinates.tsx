@@ -17,8 +17,8 @@ export default function ObjectCoordinates({
       display: "flex"
     }}>
       <NumberField 
-        label="X" 
-        defaultValue={ Math.floor(object === undefined ? 0 : object.getX()) } 
+        label="X"
+        value={ Math.floor(object === undefined ? 0 : object.getX()) }
         size="small"
         onValueChange={ (value: number | null) => {
             let convertedValue: number | undefined;
@@ -33,7 +33,7 @@ export default function ObjectCoordinates({
           } } />
       <NumberField
         label="Y"
-        defaultValue={ Math.floor(object === undefined ? 0 : object.getY()) }
+        value={ Math.floor(object === undefined ? 0 : object.getY()) }
         size="small"
         onValueChange={(value: number | null) => {
           let convertedValue: number | undefined;
