@@ -1,4 +1,5 @@
 import { HallObject } from "@/app/(application)/lib/hall-editor/objects/HallObject";
+import { Seat } from "@/app/(application)/lib/hall-editor/objects/Seat";
 import Typography from "@mui/material/Typography";
 import { FabricObject } from "fabric";
 
@@ -8,25 +9,23 @@ export default function ObjectTypeProp({
   object?: FabricObject
 }) {
 
-  if (!object) {
-      return;
-    }
-  
-    console.log("object not null");
+  function getObjectType(object: FabricObject) {
     if (object instanceof HallObject) {
-      return (
-        <Typography>
-          Тип объекта: HallObject
-        </Typography>
-      );
+      return object.getType();
     }
     else {
-      return (
-        <Typography>
-          Тип объекта: ActiveSelection
-        </Typography>
-      );
+      return "Комбинация";
     }
+  }
 
+  if (!object) {
+    return;
+  }
+  
+  return (
+    <Typography variant="body2">
+      {"Объект: " + getObjectType(object)}
+    </Typography>
+  );
 
 }

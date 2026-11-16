@@ -61,4 +61,7 @@ export class HallScreen extends HallObject {
         this._screenLine.setCoords();
     }
 
+    public getType(): string {
+        return "Экран";
+    }
 }

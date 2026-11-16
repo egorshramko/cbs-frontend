@@ -13,4 +13,6 @@ export abstract class HallObject extends Group {
         });
     }
 
+    public abstract getType(): string;
+
 }

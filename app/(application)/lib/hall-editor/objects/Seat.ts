@@ -25,4 +25,8 @@ export class Seat extends HallObject {
         });
     }
 
+    public getType(): string {
+        return "Место";
+    }
+
 }
