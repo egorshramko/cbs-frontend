@@ -5,6 +5,7 @@ import { IEditorController } from "@/app/(application)/lib/hall-editor/controlle
 import ObjectCoordinates from "./ObjectCoordinates";
 import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEvent";
 import RemoveButton from "./RemoveButton";
+import MetadataProperties from "./MetadataProperties";
 
 export default function ObjectProperties({
   object,
@@ -23,6 +24,7 @@ export default function ObjectProperties({
       <ObjectCoordinates 
         object={ object }
         controller={ controller } />
+      <MetadataProperties object={ object } />
       <RemoveButton onClick={ () => controller?.handleEvent(EditorEvent.REMOVE_OBJECT, {
         object: object
       }) } />

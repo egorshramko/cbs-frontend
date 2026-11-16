@@ -6,6 +6,9 @@ export class Seat extends HallObject {
     public static readonly baseRadius: number = 10;
     public static readonly baseStrokeWidth: number = 2;
 
+    private _row?: number;
+    private _place?: number;
+
     constructor(point: Point) {
         const components: FabricObject[] = [
             new Circle({
@@ -23,6 +26,22 @@ export class Seat extends HallObject {
             lockScalingY: true,
             hasControls: false
         });
+    }
+
+    public set row(row: number) {
+        this._row = row;
+    }
+
+    public get row(): number | undefined {
+        return this._row;
+    }
+
+    public set place(place: number) {
+        this._place = place;
+    }
+
+    public get place(): number | undefined {
+        return this._place;
     }
 
     public getType(): string {
