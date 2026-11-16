@@ -1,34 +1,7 @@
 import { EditorEventData } from "@/app/(application)/lib/hall-editor/events/data/EditorEventData";
-import { HallObject } from "@/app/(application)/lib/hall-editor/objects/HallObject";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { FabricObject } from "fabric";
-
-function ObjectProperties({
-  object
-} : {
-  object?: FabricObject
-}) {
-  if (!object) {
-    return;
-  }
-
-  console.log("object not null");
-  if (object instanceof HallObject) {
-    return (
-      <Typography>
-        Тип объекта: HallObject
-      </Typography>
-    );
-  }
-  else {
-    return (
-      <Typography>
-        Тип объекта: ActiveSelection
-      </Typography>
-    );
-  }
-}
+import ObjectProperties from "./properties/ObjectProperties";
 
 export default function HallEditorElementProperties({
   showProperties,
