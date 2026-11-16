@@ -45,7 +45,7 @@ export default function HallEditorMain() {
   }
 
   function handleChangeObjectProperties(data?: EditorEventData) {
-
+    setObjectData(data);
   }
   
   useEffect(() => {

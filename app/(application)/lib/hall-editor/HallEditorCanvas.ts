@@ -6,6 +6,7 @@ import { HallObject } from "./objects/HallObject";
 
 export type TCanvasOptions = TOptions<CanvasOptions>;
 export type SelectionCreatedEvent = CanvasEvents['selection:created'];
+export type ObjectMovingEvent = CanvasEvents['object:moving'];
 
 export class HallEditorCanvas extends Canvas {
     
@@ -43,7 +44,7 @@ export class HallEditorCanvas extends Canvas {
         this.on('mouse:dblclick', this._handleMouseClick);
         this.on('selection:created', this._handleCreateSelection);
         this.on('selection:cleared', this._handleClearSelection);
-        
+        this.on('object:moving', this._handleObjectMoving);
     }
 
     private _handleMouseClick(event: TPointerEventInfo<TPointerEvent>) {
@@ -62,7 +63,18 @@ export class HallEditorCanvas extends Canvas {
         }
     }
 
-    
+    private _handleObjectMoving(event: ObjectMovingEvent) {
+        const targetObject = event.target;
+
+        if (!!targetObject) {
+            this._controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
+                object: targetObject,
+                x: Math.floor(targetObject.getX()),
+                y: Math.floor(targetObject.getY())
+            });
+        }
+        
+    }
 
     private _handleCreateSelection(event: SelectionCreatedEvent) {
 
