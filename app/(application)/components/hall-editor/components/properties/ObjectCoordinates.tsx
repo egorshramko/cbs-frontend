@@ -14,7 +14,8 @@ export default function ObjectCoordinates({
 
   return (
     <Box sx={{
-      display: "flex"
+      display: "flex",
+      gap: "10px"
     }}>
       <NumberField 
         label="X"

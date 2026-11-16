@@ -12,7 +12,11 @@ export default function ObjectProperties({
   controller?: IEditorController
 }) {
   return (
-    <Box>
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px"
+    }}>
       <ObjectTypeProp object={ object } />
       <ObjectCoordinates 
         object={ object }

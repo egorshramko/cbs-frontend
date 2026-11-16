@@ -80,7 +80,8 @@ export default function HallEditorMain() {
       <Box sx={{
         display: "flex",
         gap: "10px",
-        flexDirection: "column"
+        flexDirection: "column",
+        width: "300px"
       }}>
         <HallEditorElementsLibrary
           selectedElement={selectedElement}
