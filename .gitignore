@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 README-IGNORE.md
+
+/app/(application)/session
