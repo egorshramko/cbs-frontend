@@ -6,6 +6,8 @@ export class HallScreen extends HallObject {
     private _screenLine: Path;
     private _label: FabricText;
 
+    static type = "HallScreen";
+
     constructor(point: Point) {
         const screenLine = HallScreen._createScreenLine();
         const label = HallScreen._createLabel();

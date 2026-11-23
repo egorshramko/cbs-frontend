@@ -1,4 +1,4 @@
-import { Circle, FabricObject, Point } from "fabric";
+import { Circle, classRegistry, FabricObject, Point } from "fabric";
 import { HallObject } from "./HallObject";
 
 export class Seat extends HallObject {
@@ -6,8 +6,11 @@ export class Seat extends HallObject {
     public static readonly baseRadius: number = 10;
     public static readonly baseStrokeWidth: number = 2;
 
-    private _row?: number;
-    private _place?: number;
+    static type = "Seat";
+    static customProperties = ['row', 'place'];
+
+    declare row?: number;
+    declare place?: number;
 
     constructor(point: Point) {
         const components: FabricObject[] = [
@@ -29,19 +32,19 @@ export class Seat extends HallObject {
     }
 
     public setRow(row: number) {
-        this._row = row;
+        this.row = row;
     }
 
     public getRow(): number | undefined {
-        return this._row;
+        return this.row;
     }
 
     public setPlace(place: number) {
-        this._place = place;
+        this.place = place;
     }
 
     public getPlace(): number | undefined {
-        return this._place;
+        return this.place;
     }
 
     public getType(): string {
@@ -49,3 +52,5 @@ export class Seat extends HallObject {
     }
 
 }
+
+classRegistry.setClass(Seat);

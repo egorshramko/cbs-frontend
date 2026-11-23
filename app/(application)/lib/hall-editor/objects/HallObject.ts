@@ -1,6 +1,10 @@
-import { FabricObject, Group, GroupProps, Point } from "fabric";
+import { FabricObject, Group, GroupProps, ObjectEvents, Point, SerializedGroupProps, TOptions } from "fabric";
 
-export abstract class HallObject extends Group {
+export abstract class HallObject<
+    Props extends TOptions<GroupProps> = Partial<GroupProps>,
+    SProps extends SerializedGroupProps = SerializedGroupProps,
+    EventSpec extends ObjectEvents = ObjectEvents
+> extends Group {
 
     constructor(
         objects: FabricObject[],
