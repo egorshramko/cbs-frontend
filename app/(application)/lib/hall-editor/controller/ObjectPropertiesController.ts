@@ -4,6 +4,7 @@ import { EditorEvent } from "../events/EditorEvent";
 import { HallEditorCanvas } from "../HallEditorCanvas";
 import { IEditorController } from "./IEditorController";
 import { HallObject } from "../objects/HallObject";
+import { Seat } from "../objects/Seat";
 
 export default class ObjectPropertiesController implements IEditorController {
 
@@ -32,7 +33,10 @@ export default class ObjectPropertiesController implements IEditorController {
     }
 
     private _handleChangeObjectProps(data?: EditorEventData) {
+        this._handleObjectMoving(data);
+    }
 
+    private _handleObjectMoving(data?: EditorEventData) {
         console.log("change object props");
         console.log(data);
         if (!!data && !!data.object) {

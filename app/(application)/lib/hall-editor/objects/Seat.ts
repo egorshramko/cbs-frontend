@@ -28,19 +28,19 @@ export class Seat extends HallObject {
         });
     }
 
-    public set row(row: number) {
+    public setRow(row: number) {
         this._row = row;
     }
 
-    public get row(): number | undefined {
+    public getRow(): number | undefined {
         return this._row;
     }
 
-    public set place(place: number) {
+    public setPlace(place: number) {
         this._place = place;
     }
 
-    public get place(): number | undefined {
+    public getPlace(): number | undefined {
         return this._place;
     }
 

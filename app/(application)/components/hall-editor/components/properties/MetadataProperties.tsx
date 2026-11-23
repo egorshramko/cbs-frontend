@@ -1,11 +1,14 @@
 import { Seat } from "@/app/(application)/lib/hall-editor/objects/Seat";
 import { FabricObject } from "fabric";
 import SeatProperties from "./metadata/SeatProperties";
+import { IEditorController } from "@/app/(application)/lib/hall-editor/controller/IEditorController";
 
 export default function MetadataProperties({
-  object
+  object,
+  controller
 } : {
   object?: FabricObject
+  controller?: IEditorController
 }) {
 
   if (!!object) {

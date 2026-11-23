@@ -45,6 +45,8 @@ export default function HallEditorMain() {
   }
 
   function handleChangeObjectProperties(data?: EditorEventData) {
+    console.debug("object data:");
+    console.debug(data);
     setObjectData(data);
   }
   

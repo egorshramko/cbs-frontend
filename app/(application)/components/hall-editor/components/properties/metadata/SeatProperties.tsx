@@ -1,12 +1,38 @@
 import NumberField from "@/app/(application)/components/NumberField";
+import { IEditorController } from "@/app/(application)/lib/hall-editor/controller/IEditorController";
+import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEvent";
 import { Seat } from "@/app/(application)/lib/hall-editor/objects/Seat";
 import Box from "@mui/material/Box";
 
 export default function SeatProperties({
-  seat
+  seat,
+  controller
 } : {
-  seat: Seat
+  seat: Seat,
+  controller?: IEditorController
 }) {
+
+  function onRowChange(value: number | null) {
+
+    if (value !== null) {
+      seat.setRow(value);
+      controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
+        object: seat
+      });
+    }
+
+  }
+
+  function onPlaceChange(value: number | null) {
+
+    if (value !== null) {
+      seat.setPlace(value);
+      controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
+        object: seat
+      });
+    }
+
+  }
   
   return (
     <Box sx={{
@@ -15,12 +41,14 @@ export default function SeatProperties({
     }}>
       <NumberField
         label="Ряд"
-        value={seat.row}
-        size="small" />
+        value={seat.getRow()}
+        size="small" 
+        onValueChange={ onRowChange } />
       <NumberField
         label="Место"
-        value={seat.place}
-        size="small" />
+        value={seat.getPlace()}
+        size="small" 
+        onValueChange={ onPlaceChange } />
     </Box>
   );
 
