@@ -14,6 +14,7 @@ import { EditorEvent } from "../../lib/hall-editor/events/EditorEvent";
 import { EditorEventData } from "../../lib/hall-editor/events/data/EditorEventData";
 import ObjectPropertiesController from "../../lib/hall-editor/controller/ObjectPropertiesController";
 import HallSchemeControlPanel from "./components/HallSchemeControlPanel";
+import ExportController from "../../lib/hall-editor/controller/ExportController";
 
 export default function HallEditorMain() {
 
@@ -21,6 +22,7 @@ export default function HallEditorMain() {
   const [selectedElement, setSelectedElement] = useState<string | null>(null);
   const [elementsLibraryController, setElementsLibraryController] = useState<ElementsLibraryController>();
   const [objectPropsController, setObjectPropsController] = useState<ObjectPropertiesController>();
+  const [exportController, setExportController] = useState<ExportController>();
   const [showProperties, setShowProperties] = useState(false);
   const [objectData, setObjectData] = useState<EditorEventData | null | undefined>(null);
 
@@ -69,6 +71,7 @@ export default function HallEditorMain() {
 
     setElementsLibraryController(new ElementsLibraryController(library));
     setObjectPropsController(new ObjectPropertiesController(canvas, reactEventHandler));
+    setExportController(new ExportController(canvas));
 
     return () => {
       canvas.dispose();
@@ -91,7 +94,7 @@ export default function HallEditorMain() {
           selectedElement={selectedElement}
           controller={elementsLibraryController}
           onChangeElement={handleChangeLibraryElement} />
-        <HallSchemeControlPanel />
+        <HallSchemeControlPanel controller={ exportController } />
         <HallEditorElementProperties showProperties={showProperties} objectData={ objectData } controller={ objectPropsController } />
       </Box>
       <HallEditorArea canvasRef={ canvasRef } />
