@@ -9,7 +9,19 @@ export default function HallSchemeControlPanel({
   controller?: IEditorController
 }) {
   return (
-    <Box>
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px"
+    }}>
+      <Button sx={{
+        width: "100%"
+      }}
+        variant="contained"
+        onClick={() => controller?.handleEvent(EditorEvent.IMPORT_JSON)}
+      >
+        Загрузить из файла
+      </Button>
       <Button sx={{
         width: "100%"
       }} 
