@@ -1,4 +1,4 @@
-import { FabricText, Path, Point } from "fabric";
+import { classRegistry, FabricText, Path, Point } from "fabric";
 import { HallObject } from "./HallObject";
 
 export class HallScreen extends HallObject {
@@ -67,3 +67,5 @@ export class HallScreen extends HallObject {
         return "Экран";
     }
 }
+
+classRegistry.setClass(HallScreen);
