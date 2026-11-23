@@ -13,6 +13,7 @@ import { ReactEventHandler } from "../../lib/hall-editor/events/ReactEventHandle
 import { EditorEvent } from "../../lib/hall-editor/events/EditorEvent";
 import { EditorEventData } from "../../lib/hall-editor/events/data/EditorEventData";
 import ObjectPropertiesController from "../../lib/hall-editor/controller/ObjectPropertiesController";
+import HallSchemeControlPanel from "./components/HallSchemeControlPanel";
 
 export default function HallEditorMain() {
 
@@ -90,6 +91,7 @@ export default function HallEditorMain() {
           selectedElement={selectedElement}
           controller={elementsLibraryController}
           onChangeElement={handleChangeLibraryElement} />
+        <HallSchemeControlPanel />
         <HallEditorElementProperties showProperties={showProperties} objectData={ objectData } controller={ objectPropsController } />
       </Box>
       <HallEditorArea canvasRef={ canvasRef } />

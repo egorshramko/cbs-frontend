@@ -5,5 +5,6 @@ export enum EditorEvent {
     OBJECT_SELECTED = "Object selected",
     SELECTION_CLEARED = "Selection cleared",
     CHANGE_OBJECT_PROPS = "Change object properties",
-    REMOVE_OBJECT = "Remove object"
+    REMOVE_OBJECT = "Remove object",
+    EXPORT_JSON = "Export JSON"
 }
