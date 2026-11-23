@@ -24,7 +24,7 @@ export default function ObjectProperties({
       <ObjectCoordinates 
         object={ object }
         controller={ controller } />
-      <MetadataProperties object={ object } />
+      <MetadataProperties object={ object } controller={ controller } />
       <RemoveButton onClick={ () => controller?.handleEvent(EditorEvent.REMOVE_OBJECT, {
         object: object
       }) } />

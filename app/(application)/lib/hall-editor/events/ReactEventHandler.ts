@@ -13,6 +13,7 @@ export class ReactEventHandler implements IEditorController {
     }
 
     public handleEvent(event: EditorEvent, data?: EditorEventData): void {
+        console.log("calling callback controller");
         const handler = this._handlers[event];
 
         if (!handler) {

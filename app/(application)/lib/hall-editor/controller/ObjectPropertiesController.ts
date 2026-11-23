@@ -22,6 +22,7 @@ export default class ObjectPropertiesController implements IEditorController {
     public handleEvent(event: EditorEvent, data?: EditorEventData) {
         switch (event) {
             case EditorEvent.CHANGE_OBJECT_PROPS:
+                console.debug("object properties controller: change object props event");
                 this._handleChangeObjectProps(data);
                 break;
             case EditorEvent.REMOVE_OBJECT:
@@ -37,8 +38,8 @@ export default class ObjectPropertiesController implements IEditorController {
     }
 
     private _handleObjectMoving(data?: EditorEventData) {
-        console.log("change object props");
-        console.log(data);
+        console.debug("handleObjectMoving data:");
+        console.debug(data);
         if (!!data && !!data.object) {
             const movingObject = data.object;
             const targetPoint = new Point({

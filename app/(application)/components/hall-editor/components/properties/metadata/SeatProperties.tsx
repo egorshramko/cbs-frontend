@@ -17,24 +17,36 @@ export default function SeatProperties({
 
   function onRowChange(value: number | null) {
 
+    console.debug("on row change starts");
+
     if (value !== null) {
 
+      console.debug("value not null");
+
       if (seats.length == 1) {
+
+        console.debug("single seat");
+
         const seat = seats[0];
         seat.setRow(value);
         controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
-          object: seat
+          object: seat,
+          row: value
         });
       }
       else if (seats.length > 1) {
+
+        console.debug("many seats");
         seats.forEach(seat => seat.setRow(value));
         controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
-          object: activeSelection
+          object: activeSelection,
+          row: value
         });
       }
-
       
     }
+
+    console.debug("on row change ends");
 
   }
 
@@ -46,13 +58,15 @@ export default function SeatProperties({
         const seat = seats[0];
         seat.setPlace(value);
         controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
-          object: seat
+          object: seat,
+          place: value
         });
       }
       else if (seats.length > 1) {
         seats.forEach(seat => seat.setPlace(value));
         controller?.handleEvent(EditorEvent.CHANGE_OBJECT_PROPS, {
-          object: activeSelection
+          object: activeSelection,
+          place: value
         });
       }
       

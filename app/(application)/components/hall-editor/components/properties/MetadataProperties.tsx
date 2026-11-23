@@ -14,7 +14,7 @@ export default function MetadataProperties({
 
   if (!!object) {
     if (object instanceof Seat) {
-      return <SeatProperties seats={[object]} />
+      return <SeatProperties seats={[object]} controller={ controller }/>
     }
     else if (object instanceof ActiveSelection) {
 
@@ -23,7 +23,7 @@ export default function MetadataProperties({
       //показ общих свойств сидений, если выбраны только сидения
       if (selectedObjects.every(obj => obj instanceof Seat)) {
         const seats: Seat[] = selectedObjects.map(obj => obj as Seat);
-        return <SeatProperties seats={ seats } activeSelection={ object } />;
+        return <SeatProperties seats={ seats } activeSelection={ object } controller={ controller } />;
       }
     }
   }
