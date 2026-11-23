@@ -16,6 +16,9 @@ export default class JsonController implements IEditorController {
             case EditorEvent.EXPORT_JSON:
                 this._handleExportJsonEvent();
                 break;
+            case EditorEvent.IMPORT_JSON:
+                this._handleImportJsonEvent();
+                break;
         }
     }
 
@@ -34,6 +37,38 @@ export default class JsonController implements IEditorController {
 
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+    }
+
+    private _handleImportJsonEvent() {
+        const fileInput = document.createElement('input');
+        fileInput.type = "file";
+        fileInput.hidden = true;
+        fileInput.accept = ".json";
+
+        fileInput.addEventListener("change", async () => {
+            const file = fileInput.files?.[0];
+
+            if (!file) {
+                fileInput.remove();
+                return;
+            }
+
+            const fileContent = await file.text();
+
+            try {
+                await this._hallEditorCanvas.loadCanvasFromJson(fileContent);
+            }
+            catch (ex) {
+                console.error(ex);
+            }
+            finally {
+                fileInput.remove();
+            }
+        });
+
+        document.body.appendChild(fileInput);
+        fileInput.click();
+
     }
 
 }

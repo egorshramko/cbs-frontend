@@ -1,4 +1,4 @@
-import { ActiveSelection, Canvas } from "fabric";
+import { ActiveSelection, Canvas, Group } from "fabric";
 import type { CanvasEvents, CanvasOptions, FabricObject, Point, TEvent, TOptions, TPointerEvent, TPointerEventInfo } from 'fabric';
 import { IEditorController } from "./controller/IEditorController";
 import { EditorEvent } from "./events/EditorEvent";
@@ -183,6 +183,12 @@ export class HallEditorCanvas extends Canvas {
             top: targetPoint.y
         });
         object.setCoords();
+        this.requestRenderAll();
+    }
+
+    public async loadCanvasFromJson(json: string): Promise<void> {
+        await this.loadFromJSON(json);
+        this.getObjects().forEach(obj => obj.setCoords());
         this.requestRenderAll();
     }
 

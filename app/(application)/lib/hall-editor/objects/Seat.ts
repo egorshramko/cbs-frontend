@@ -1,5 +1,10 @@
-import { Circle, classRegistry, FabricObject, Point } from "fabric";
+import { Circle, classRegistry, FabricObject, GroupProps, Point } from "fabric";
 import { HallObject } from "./HallObject";
+
+interface SeatProps extends Partial<GroupProps> {
+    row?: number;
+    place?: number;
+}
 
 export class Seat extends HallObject {
     
@@ -12,23 +17,38 @@ export class Seat extends HallObject {
     declare row?: number;
     declare place?: number;
 
-    constructor(point: Point) {
-        const components: FabricObject[] = [
-            new Circle({
-                fill: "",
-                stroke: "black",
-                strokeWidth: Seat.baseStrokeWidth,
-                radius: Seat.baseRadius
-            })
-        ];
 
-        super(components, {
-            left: point.x,
-            top: point.y,
-            lockScalingX: true,
-            lockScalingY: true,
-            hasControls: false
-        });
+    constructor(pointOrObjects: Point | FabricObject[], options: SeatProps = {}) {
+
+        const isDeserialization = Array.isArray(pointOrObjects);
+
+        const components: FabricObject[] = 
+            isDeserialization 
+            ? pointOrObjects 
+            : [
+                new Circle({
+                    fill: "",
+                    stroke: "black",
+                    strokeWidth: Seat.baseStrokeWidth,
+                    radius: Seat.baseRadius
+                })
+            ];
+
+        super(components, 
+            isDeserialization 
+                ? {
+                    ...options,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    hasControls: false
+                } 
+                : {
+                    left: (pointOrObjects as Point).x,
+                    top: (pointOrObjects as Point).y,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    hasControls: false
+                });
     }
 
     public setRow(row: number) {

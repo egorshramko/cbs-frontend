@@ -1,4 +1,4 @@
-import { classRegistry, FabricText, Path, Point } from "fabric";
+import { classRegistry, FabricObject, FabricText, GroupProps, Path, Point } from "fabric";
 import { HallObject } from "./HallObject";
 
 export class HallScreen extends HallObject {
@@ -8,19 +8,40 @@ export class HallScreen extends HallObject {
 
     static type = "HallScreen";
 
-    constructor(point: Point) {
-        const screenLine = HallScreen._createScreenLine();
-        const label = HallScreen._createLabel();
+    constructor(
+        pointOrObjects: Point | FabricObject[],
+        options: Partial<GroupProps> = {}
+    ) {
+        const isDeserialization = Array.isArray(pointOrObjects);
 
-        super([screenLine, label], {
-            left: point.x,
-            top: point.y
-        });
+        const components: FabricObject[] = isDeserialization
+            ? pointOrObjects
+            : [
+                HallScreen._createScreenLine(),
+                HallScreen._createLabel()
+            ];
 
-        this._screenLine = screenLine;
-        this._label = label;
+        super(
+            components,
+            isDeserialization
+                ? options
+                : {
+                    ...options,
+                    left: (pointOrObjects as Point).x,
+                    top: (pointOrObjects as Point).y
+                }
+        );
+
+        // Получаем ссылки на восстановленные или созданные объекты
+        this._screenLine = components.find(
+            obj => obj instanceof Path
+        ) as Path;
+
+        this._label = components.find(
+            obj => obj instanceof FabricText
+        ) as FabricText;
+
         this._initDefaultEvents();
-        
     }
 
     private static _createScreenLine(): Path {
