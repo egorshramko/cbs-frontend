@@ -3,7 +3,7 @@ import { EditorEvent } from "../events/EditorEvent";
 import { HallEditorCanvas } from "../HallEditorCanvas";
 import { IEditorController } from "./IEditorController";
 
-export default class ExportController implements IEditorController {
+export default class JsonController implements IEditorController {
 
     private _hallEditorCanvas: HallEditorCanvas;
 
