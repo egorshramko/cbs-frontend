@@ -8,9 +8,11 @@ import { ChangeEvent, useState } from "react";
 
 function RoundingRadius({
   show,
+  value,
   onValueChange
 } : {
   show: boolean,
+  value?: number | null,
   onValueChange?: (value: number | null) => void
 }) {
   if (show) {
@@ -23,6 +25,7 @@ function RoundingRadius({
         <NumberField
           label="Радиус скругления"
           size="small" 
+          value={ value }
           onValueChange={ onValueChange } />
       </Box>
     );
@@ -56,6 +59,9 @@ export default function RowConfiguration({
   function handleChangeRoundedFlag(event: ChangeEvent<HTMLInputElement, Element>, checked: boolean) {
     const config = {...rowConfiguration};
     config.rounded = checked;
+    if (checked && (config.roundingRadius === null || config.roundingRadius === undefined) ) {
+      config.roundingRadius = 100;
+    }
     setShowRoundingRadius(checked);
     onChangeConfiguration(config);
   }
@@ -85,10 +91,12 @@ export default function RowConfiguration({
         <NumberField
           label="Номер ряда"
           size="small" 
+          value={ rowConfiguration.rowNumber }
           onValueChange={ handleChangeRowNumber }/>
         <NumberField
           label="Кол-во мест"
           size="small" 
+          value={ rowConfiguration.placesCount }
           onValueChange={ handleChangePlacesCount } />
       </Box>
       <Box sx={{
@@ -107,6 +115,7 @@ export default function RowConfiguration({
       </Box>
       <RoundingRadius 
         show={ showRoundingRadius } 
+        value={ rowConfiguration.roundingRadius }
         onValueChange={ handleChangeRoundingRadius } />
       <Box sx={{
         display: "flex",
