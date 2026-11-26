@@ -91,7 +91,8 @@ export default function RowConfiguration({
         <NumberField
           label="Номер ряда"
           size="small" 
-          value={ rowConfiguration.rowNumber }
+          min={ 1 }
+          value={ !rowConfiguration.rowNumber ? null : rowConfiguration.rowNumber }
           onValueChange={ handleChangeRowNumber }/>
         <NumberField
           label="Кол-во мест"
