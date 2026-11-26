@@ -62,6 +62,9 @@ export default function HallEditorElementsLibrary({
         <ToggleButton value="seat" aria-label="seat">
           Место
         </ToggleButton>
+        <ToggleButton value="row" aria-label="row">
+          Ряд
+        </ToggleButton>
       </ToggleButtonGroup>
       <Box sx={{
         display: "flex"
