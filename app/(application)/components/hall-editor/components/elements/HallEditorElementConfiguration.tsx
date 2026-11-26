@@ -3,7 +3,8 @@ import { ObjectType } from "@/app/(application)/lib/hall-editor/objects/ObjectTy
 import RowConfiguration from "./config/RowConfiguration";
 import { useState } from "react";
 import RowConfigData from "@/app/(application)/lib/hall-editor/events/data/RowConfigData";
-import { RowNumerationDirectionData } from "@/app/(application)/lib/hall-editor/events/data/RowNumerationDirection";
+import ElementsLibraryUtils from "@/app/(application)/lib/hall-editor/model/util/ElementsLibraryUtils";
+import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEvent";
 
 export default function HallEditorElementConfiguration({
   selectedElement,
@@ -13,14 +14,12 @@ export default function HallEditorElementConfiguration({
   controller?: IEditorController
 }) {
 
-  const [rowConfiguration, setRowConfiguration] = useState<RowConfigData>({
-    placesCount: 10,
-    rounded: false,
-    numerationDirection: RowNumerationDirectionData.LEFT_TO_RIGHT
-  });
+  const [rowConfiguration, setRowConfiguration] = useState<RowConfigData>(
+    ElementsLibraryUtils.getDefaultRowConfig());
 
   function handleChangeRowConfiguration(config: RowConfigData) {
     setRowConfiguration(config);
+    controller?.handleEvent(EditorEvent.CHANGE_CONFIG, config);
   }
 
   if (selectedElement === ObjectType.ROW) {

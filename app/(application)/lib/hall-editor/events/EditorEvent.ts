@@ -7,5 +7,6 @@ export enum EditorEvent {
     CHANGE_OBJECT_PROPS = "Change object properties",
     REMOVE_OBJECT = "Remove object",
     EXPORT_JSON = "Export JSON",
-    IMPORT_JSON = "Import JSON"
+    IMPORT_JSON = "Import JSON",
+    CHANGE_CONFIG = "Change config"
 }
