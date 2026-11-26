@@ -1,5 +1,6 @@
 import RowConfigData from "../events/data/RowConfigData";
 import { HallObjectFactory } from "../objects/factory/HallObjectFactory";
+import RowFactory from "../objects/factory/RowFactory";
 import { ScreenFactory } from "../objects/factory/ScreenFactory";
 import { SeatFactory } from "../objects/factory/SeatFactory";
 import { ObjectType } from "../objects/ObjectType";
@@ -53,6 +54,14 @@ export class ElementsLibrary {
                     return new ScreenFactory(this._elementsCount);
                 case ObjectType.SEAT:
                     return new SeatFactory(this._elementsCount);
+                case ObjectType.ROW:
+                    if (this._rowConfig !== undefined) {
+                        return new RowFactory(this._rowConfig);
+                    }
+                    else {
+                        return null;
+                    }
+                    
             }
         }
         return null;
