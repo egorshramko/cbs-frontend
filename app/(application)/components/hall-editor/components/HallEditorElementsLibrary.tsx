@@ -9,6 +9,7 @@ import { EditorEvent } from "@/app/(application)/lib/hall-editor/events/EditorEv
 import { ObjectType } from "@/app/(application)/lib/hall-editor/objects/ObjectType";
 import NumberField from "../../NumberField";
 import { NumberFieldRootChangeEventDetails } from "@base-ui/react";
+import HallEditorElementConfiguration from "./elements/HallEditorElementConfiguration";
 
 export default function HallEditorElementsLibrary({
   selectedElement,
@@ -62,6 +63,9 @@ export default function HallEditorElementsLibrary({
         <ToggleButton value="seat" aria-label="seat">
           Место
         </ToggleButton>
+        <ToggleButton value="row" aria-label="row">
+          Ряд
+        </ToggleButton>
       </ToggleButtonGroup>
       <Box sx={{
         display: "flex",
@@ -77,6 +81,10 @@ export default function HallEditorElementsLibrary({
           helperText="Значение должно быть от 1 до 400" 
           onValueChange={ handleChangeElementsCount } />
       </Box>
+      <HallEditorElementConfiguration 
+        selectedElement={ selectedElement as ObjectType } 
+        controller={ controller }
+        />
     </Box>
   );
 }

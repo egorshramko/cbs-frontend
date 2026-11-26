@@ -1,4 +1,5 @@
 import { EditorEventData } from "../events/data/EditorEventData";
+import RowConfigData from "../events/data/RowConfigData";
 import { EditorEvent } from "../events/EditorEvent";
 import { ElementsLibrary } from "../model/ElementsLibrary";
 import { IEditorController } from "./IEditorController";
@@ -22,6 +23,11 @@ export class ElementsLibraryController implements IEditorController {
                 if (!!data) {
                     this.handleChangeElementsCount(data);
                 }
+                break;
+            case EditorEvent.CHANGE_CONFIG:
+                if (!!data) {
+                    this.handleChangeConfig(data);
+                }
         }
     }
 
@@ -33,6 +39,10 @@ export class ElementsLibraryController implements IEditorController {
         if (data.elementsCount !== undefined) {
             this._elementsLibrary.elementsCount = data.elementsCount;
         }
+    }
+
+    public handleChangeConfig(data: EditorEventData) {
+        this._elementsLibrary.rowConfig = data as RowConfigData;
     }
 
 }

@@ -1,4 +1,5 @@
 export enum ObjectType {
     SCREEN = "screen",
-    SEAT = "seat"
+    SEAT = "seat",
+    ROW = "row"
 }

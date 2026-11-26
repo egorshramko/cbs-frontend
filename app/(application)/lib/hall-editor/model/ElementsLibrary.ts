@@ -1,12 +1,16 @@
+import RowConfigData from "../events/data/RowConfigData";
 import { HallObjectFactory } from "../objects/factory/HallObjectFactory";
+import RowFactory from "../objects/factory/RowFactory";
 import { ScreenFactory } from "../objects/factory/ScreenFactory";
 import { SeatFactory } from "../objects/factory/SeatFactory";
 import { ObjectType } from "../objects/ObjectType";
+import ElementsLibraryUtils from "./util/ElementsLibraryUtils";
 
 export class ElementsLibrary {
 
     private _selectedObjectType: ObjectType | null | undefined;
     private _elementsCount: number;
+    private _rowConfig?: RowConfigData;
 
     constructor() {
         this._selectedObjectType = null;
@@ -15,6 +19,9 @@ export class ElementsLibrary {
 
     public set selectedObjectType(type: ObjectType | null | undefined) {
         this._selectedObjectType = type;
+        if (this._selectedObjectType === ObjectType.ROW && !this._rowConfig) {
+            this._rowConfig = ElementsLibraryUtils.getDefaultRowConfig();
+        }
     }
 
     public get selectedObjectType(): ObjectType | null {
@@ -22,6 +29,14 @@ export class ElementsLibrary {
             return null;
         }
         return this._selectedObjectType;
+    }
+
+    public set rowConfig(rowConfig: RowConfigData) {
+        this._rowConfig = rowConfig;
+    }
+
+    public get rowConfig(): RowConfigData | undefined {
+        return this._rowConfig;
     }
 
     public set elementsCount(count: number) {
@@ -39,6 +54,14 @@ export class ElementsLibrary {
                     return new ScreenFactory(this._elementsCount);
                 case ObjectType.SEAT:
                     return new SeatFactory(this._elementsCount);
+                case ObjectType.ROW:
+                    if (this._rowConfig !== undefined) {
+                        return new RowFactory(this._rowConfig);
+                    }
+                    else {
+                        return null;
+                    }
+                    
             }
         }
         return null;
