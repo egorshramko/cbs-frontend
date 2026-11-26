@@ -64,7 +64,9 @@ export default function HallEditorElementsLibrary({
         </ToggleButton>
       </ToggleButtonGroup>
       <Box sx={{
-        display: "flex"
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch"
       }}>
         <NumberField 
           label="Количество элементов" 
