@@ -88,7 +88,10 @@ export default function HallEditorMain() {
         display: "flex",
         gap: "10px",
         flexDirection: "column",
-        width: "300px"
+        width: "300px",
+        maxHeight: "600px",
+        overflowY: "scroll",
+        scrollbarWidth: "none"
       }}>
         <HallEditorElementsLibrary
           selectedElement={selectedElement}
